@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   LINKTIC PM — Rich language (glass + mesh + grano + glow + gradientes)
+   Compartido por todas las vistas del rediseño "rico".
+   ===================================================================== */
+:root{
+  --brand:#194bfe; --brand2:#6a5cff; --violet:#8b5cf6; --violet2:#c084fc;
+  --recaudo:#10b981; --recaudo2:#34d399; --danger:#e5484d; --amber:#f59e0b;
+  --text:#12141c; --sec:#5a6472; --muted:#8a94a3; --ease:cubic-bezier(.87,0,.13,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Manrope",sans-serif;color:var(--text);min-height:100vh;position:relative;
+  background:
+    radial-gradient(62% 52% at 12% -5%, rgba(25,75,254,.20), transparent 60%),
+    radial-gradient(52% 46% at 92% 8%, rgba(139,92,246,.18), transparent 60%),
+    radial-gradient(46% 42% at 82% 96%, rgba(16,185,129,.13), transparent 60%),
+    radial-gradient(50% 50% at 40% 60%, rgba(106,92,255,.10), transparent 60%),
+    #e9ebf1;
+  background-attachment:fixed;
+}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---- App shell ---- */
+.shell{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:248px;flex:none;padding:20px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.42));backdrop-filter:blur(18px);
+  border-right:1px solid rgba(255,255,255,.6)}
+.brand{display:flex;align-items:center;gap:8px;padding:6px 8px 22px;font-size:15px;font-weight:800;letter-spacing:.16em}
+.brand b{color:var(--brand)} .brand span{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0}
+.navitem{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:14px;font-size:13.5px;color:var(--sec);
+  font-weight:500;transition:all .2s var(--ease);line-height:1.25;text-decoration:none;cursor:pointer}
+.navitem svg{flex:none}
+.navitem:hover{background:rgba(255,255,255,.6);color:var(--text)}
+.navitem.active{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));
+  box-shadow:0 12px 26px -12px rgba(25,75,254,.75)}
+.content{flex:1;min-width:0}
+
+/* ---- Topbar glass ---- */
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:13px 30px;background:rgba(255,255,255,.5);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.6)}
+.searchpill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+  border-radius:999px;padding:9px 16px;font-size:13px;color:var(--muted);width:300px}
+.userchip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+  border-radius:999px;padding:5px 6px 5px 14px}
+.ava{width:32px;height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#fff;
+  font-size:12px;font-weight:700;background:linear-gradient(135deg,var(--brand),var(--violet))}
+
+.page{max-width:1180px;margin:0 auto;padding:30px 32px 60px}
+h1{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.subt{font-size:13px;color:var(--sec);margin-top:4px}
+.sec-h{font-size:17px;font-weight:800;letter-spacing:-.01em}
+
+/* ---- Glass card ---- */
+.gcard{position:relative;border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(255,255,255,.6));
+  backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 22px 48px -24px rgba(25,75,254,.32),0 8px 26px rgba(16,24,40,.07)}
+.gcard.soft{box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 10px 30px -18px rgba(25,75,254,.25),0 4px 16px rgba(16,24,40,.05)}
+
+.lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ghost{position:absolute;font-weight:800;letter-spacing:-.04em;color:rgba(25,75,254,.055);line-height:.8;z-index:0;
+  pointer-events:none;user-select:none}
+
+/* ---- chips / pills ---- */
+.chip{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px}
+.up{background:rgba(16,185,129,.14);color:#059669}.down{background:rgba(229,72,77,.14);color:#e5484d}
+.gp{font-size:12px;font-weight:700;padding:7px 15px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
+.gp-pend{background:rgba(90,100,114,.12);color:#5a6472}
+.gp-prog{color:#fff;background:linear-gradient(135deg,#194bfe,#6a5cff)}
+.gp-atr{background:rgba(229,72,77,.14);color:#e5484d}
+.gp-done{background:rgba(16,185,129,.14);color:#059669}
+.gp-media{background:rgba(245,158,11,.16);color:#b45309}
+.gp-sm{font-size:11px;padding:5px 12px}
+
+/* ---- KPI ---- */
+.kpi{padding:22px 24px;overflow:hidden}
+.kpi .glow{position:absolute;width:150px;height:110px;filter:blur(38px);opacity:.5;border-radius:50%;top:-24px;left:8px}
+.kpi .top{display:flex;align-items:flex-start;justify-content:space-between;position:relative}
+.kpi .num{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px;position:relative}
+.kpi .num small{font-size:16px;font-weight:700}
+.spark{margin-top:10px;display:block}
+
+/* ---- rich row (hover-reveal ready) ---- */
+.rrow{display:flex;align-items:center;gap:18px;padding:16px 22px;transition:all .3s var(--ease)}
+.rrow:hover{transform:translateY(-2px)}
+.rrow:hover .arw{opacity:1;transform:translateX(0)}
+.rrow .mk{width:6px;height:42px;border-radius:999px;flex:none}
+.rrow .t{font-size:14px;font-weight:700}
+.rrow .s{font-size:12px;font-weight:600;margin-top:2px}
+.rrow .pct{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.rrow .arw{width:40px;height:40px;border-radius:999px;color:#fff;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 8px 20px -6px rgba(25,75,254,.6);
+  opacity:0;transform:translateX(-8px);transition:all .5s var(--ease)}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:13px;font-weight:700;
+  padding:10px 18px;border-radius:999px;border:0;cursor:pointer;transition:all .3s var(--ease)}
+.btn-primary{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 12px 26px -10px rgba(25,75,254,.6)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-primary .a{transition:transform .6s var(--ease)}.btn-primary:hover .a{transform:translateX(4px)}
+.btn-ghost{background:#fff;border:1px solid rgba(16,24,40,.16);color:var(--text);box-shadow:0 2px 6px rgba(16,24,40,.06)}
+.btn-ghost:hover{border-color:rgba(25,75,254,.4);background:#fbfcff}
+.btn-ink{color:#fff;background:linear-gradient(135deg,#20222b,#3a3d4a)}
+
+/* ---- inputs (modal) ---- */
+.fld{width:100%;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);border-radius:14px;
+  padding:10px 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:all .2s}
+.fld:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(25,75,254,.16);background:#fff}
+.flab{font-size:12px;font-weight:600;color:var(--sec);margin-bottom:6px;display:block}
+.flab .req{color:var(--danger)}
+select.fld{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%238a94a3' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+
+/* ---- table ---- */
+.rtable{width:100%;text-align:left;border-collapse:separate;border-spacing:0}
+.rtable th{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 18px}
+.rtable tbody tr{transition:background .2s var(--ease);cursor:pointer}
+.rtable tbody tr:hover{background:rgba(255,255,255,.6)}
+.rtable tbody tr:hover .arw{opacity:1;transform:translateX(0)}
+.rtable td{padding:15px 18px;border-top:1px solid rgba(255,255,255,.7)}
+.arw-sm{width:32px;height:32px;border-radius:999px;color:#fff;display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));opacity:0;transform:translateX(-6px);transition:all .5s var(--ease)}
+
+/* ---- Información Financiera (contraste + charts animados) ---- */
+.finhead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.seg{display:flex;gap:4px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.9);padding:4px;border-radius:999px}
+.seg-i{padding:6px 15px;border-radius:999px;font-size:12px;font-weight:700;color:var(--sec);cursor:pointer;transition:all .3s var(--ease)}
+.seg-i.active{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 8px 18px -8px rgba(25,75,254,.6)}
+
+/* contenedor "hundido" y tintado → las cards blancas se despegan */
+.finpanel{background:linear-gradient(180deg,rgba(228,231,242,.72),rgba(238,240,248,.5));
+  box-shadow:inset 0 2px 12px rgba(16,24,40,.06),0 22px 48px -24px rgba(25,75,254,.26),0 8px 26px rgba(16,24,40,.06)}
+.fingrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+.fcard{position:relative;overflow:hidden;border-radius:16px;padding:18px 20px;background:#fff;
+  border:1px solid rgba(16,24,40,.08);
+  box-shadow:0 6px 20px -8px rgba(16,24,40,.20),0 2px 6px rgba(16,24,40,.06);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.fcard:hover{transform:translateY(-5px);box-shadow:0 20px 40px -12px rgba(25,75,254,.32),0 6px 14px rgba(16,24,40,.10)}
+.fcard .glow{position:absolute;width:160px;height:96px;filter:blur(42px);opacity:.26;border-radius:50%;top:-26px;left:4px;transition:opacity .35s var(--ease)}
+.fcard:hover .glow{opacity:.55}
+.fc-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative}
+.fnum{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:12px;position:relative;font-variant-numeric:tabular-nums}
+.fnum small{font-size:15px;font-weight:700}
+.chip{transition:transform .3s var(--ease)}
+.fcard:hover .chip{transform:scale(1.06)}
+
+.spark{width:100%;height:42px;display:block;margin-top:10px;overflow:visible}
+.spark-line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.3s var(--ease)}
+.fcard.drawn .spark-line{stroke-dashoffset:0}
+.spark-area{opacity:0;transition:opacity 1s ease .35s}
+.fcard.drawn .spark-area{opacity:1}
+.spark-dot{opacity:0;transform:scale(.4);transform-origin:center;transition:all .35s var(--ease);filter:drop-shadow(0 0 5px currentColor)}
+.fcard:hover .spark-dot{opacity:1;transform:scale(1)}
+@media (prefers-reduced-motion:reduce){
+  .spark-line{transition:none;stroke-dashoffset:0}.spark-area{transition:none;opacity:1}
+}
+
+/* ---- modal (overlay) ---- */
+.backdrop{position:fixed;inset:0;background:rgba(20,22,34,.42);backdrop-filter:blur(4px);z-index:40}
+.modalwrap{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:40px 20px;z-index:41}
+.modal{width:100%;max-width:580px;border-radius:24px;overflow:hidden;
+  background:linear-gradient(165deg,rgba(255,255,255,.96),rgba(255,255,255,.82));backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.85);box-shadow:0 40px 100px -30px rgba(25,75,254,.4),0 24px 60px rgba(16,24,40,.25)}
+.mhead{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid rgba(255,255,255,.7)}
+.xbtn{width:32px;height:32px;border-radius:999px;border:0;background:rgba(255,255,255,.6);color:var(--muted);cursor:pointer;font-size:14px}
+.mbody{padding:24px 28px;display:flex;flex-direction:column;gap:18px}
+.mfoot{display:flex;justify-content:flex-end;gap:12px;padding:20px 28px;border-top:1px solid rgba(255,255,255,.7)}
+
+/* motion de entrada */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{animation:rise .7s var(--ease) both}
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+</style>
+<style>.filterpill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:500}
+.talla{display:inline-flex;background:rgba(90,100,114,.1);color:var(--sec);font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px}</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">LINK<b>TIC</b> <span>PM</span></div>
+    <nav style="display:flex;flex-direction:column;gap:4px">
+      <a class="navitem" href="dashboard.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Dashboard</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7h18M3 12h18M3 17h18"/></svg> Programas</a>
+      <a class="navitem active" href="proyectos-list.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Proyectos</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 12a8 8 0 0 1 14-5m2 5a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg> Solicitudes de cambio</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg> Seguimiento en cierre</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg> Matriz de madurez</a>
+    </nav>
+    <a class="navitem" style="margin-top:auto"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/></svg> Cerrar sesión</a>
+  </aside>
+  <div class="content">
+    <div class="topbar">
+      <div class="searchpill"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar proyecto...</div>
+      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:700">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
+    </div>
+    <div class="page">
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-end">
+        <div><span class="ghost" style="left:-6px;top:-44px;font-size:130px">421</span><h1>Proyectos</h1><p class="subt">Todos los proyectos del equipo · 28 activos</p></div>
+        <button class="btn btn-primary" id="openNp"><span style="font-size:15px;line-height:1">+</span> Nuevo proyecto</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin:22px 0 16px">
+        <div class="searchpill" style="width:300px"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar por nombre...</div>
+        <span class="filterpill">Etapa: <b>todas</b> <span style="color:var(--muted)">▾</span></span>
+        <span class="filterpill">Talla: <b>todas</b> <span style="color:var(--muted)">▾</span></span>
+      </div>
+
+      <div class="gcard reveal d1" style="padding:8px 6px 6px;overflow:hidden">
+        <table class="rtable">
+          <thead><tr>
+            <th>Proyecto</th><th>Gerente</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th></th>
+          </tr></thead>
+          <tbody>
+            <tr><td><b>421 - Proyecto Balú</b></td><td style="color:var(--sec)">Evelio Zambrano</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="color:var(--sec);font-size:13px">Positiva Cía. de Seguros</td><td style="font-size:12px;color:var(--sec)">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td style="text-align:right;font-weight:800">$120.124.866.978</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>348 - SGDEA Acueducto</b></td><td style="color:var(--sec)">Alejandro Castiblanco</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="color:var(--muted)">—</td><td style="font-size:12px;color:var(--sec)">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td style="text-align:right;font-weight:800">$13.126.664.337</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>461 - Cuentas Claras</b></td><td style="color:var(--sec)">Heriberto Quiñonez</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--sec);font-size:13px">Fernan Ocampo G.</td><td style="font-size:12px;color:var(--sec)">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td style="text-align:right;font-weight:800">$1</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>457 - Portales Digitales · La Equidad</b></td><td style="color:var(--sec)">Luis F. Chaparro</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="color:var(--sec);font-size:13px">La Equidad Seguros</td><td style="font-size:12px;color:var(--sec)">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td style="text-align:right;font-weight:800">$422.630.880</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>406 - Proyecto SAP EY</b></td><td style="color:var(--sec)">Maritza A. Reinel</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="color:var(--sec);font-size:13px">Ernst &amp; Young SAS</td><td style="font-size:12px;color:var(--sec)">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td style="text-align:right;font-weight:800">$4.845.680.000</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Nuevo proyecto (overlay in-place) -->
+<div id="npModal" style="display:none">
+  <div class="backdrop" data-close></div>
+  <div class="modalwrap">
+    <div class="modal">
+      <div class="mhead">
+        <h2 style="font-size:18px;font-weight:800;letter-spacing:-.01em">Nuevo proyecto</h2>
+        <button class="xbtn" data-close>✕</button>
+      </div>
+      <div class="mbody">
+        <div><label class="flab">Nombre <span class="req">*</span></label><input class="fld" placeholder="Ej: Proyecto Balú"></div>
+        <div><label class="flab">Descripción</label><textarea class="fld" rows="3" placeholder="Breve descripción del proyecto"></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><label class="flab">Programa</label><select class="fld"><option>— sin programa —</option></select></div>
+          <div><label class="flab">Líder</label><input class="fld" placeholder="Ej: Carlos Pérez"></div>
+          <div><label class="flab">Estado</label><select class="fld"><option>Planificación</option></select></div>
+          <div><label class="flab">Prioridad</label><select class="fld"><option>Media</option></select></div>
+          <div><label class="flab">Fecha inicio plan</label><input class="fld" placeholder="dd/mm/aaaa"></div>
+          <div><label class="flab">Fecha final plan</label><input class="fld" placeholder="dd/mm/aaaa"></div>
+        </div>
+        <div><label class="flab">Días laborables</label><input class="fld" value="1,2,3,4,5"><p style="font-size:12px;color:var(--muted);margin-top:6px">Lista separada por comas. 1=Lun, 2=Mar, …, 7=Dom.</p></div>
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" data-close>Cancelar</button>
+        <button class="btn btn-primary" data-close>Crear <span class="a">→</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // cada fila de la tabla → detalle del proyecto
+  document.querySelectorAll('.rtable tbody tr').forEach(tr => {
+    tr.addEventListener('click', () => location.href = 'proyecto-detalle.html');
+  });
+  // modal Nuevo proyecto (abre/cierra en la misma vista)
+  const np = document.getElementById('npModal');
+  document.getElementById('openNp').addEventListener('click', () => np.style.display = 'block');
+  np.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => np.style.display = 'none'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') np.style.display = 'none'; });
+</script>
+</body>
+</html>
