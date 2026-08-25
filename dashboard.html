@@ -5,23 +5,23 @@
 <title>Dashboard · Visor PMO</title>
 <link rel="icon" type="image/svg+xml" href="assets/Recurso%209.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   .hero{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin:22px 0 18px;position:relative;z-index:1}
   .spot{padding:26px 28px;overflow:hidden}
-  .spot .code{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--brand);background:rgba(54,102,171,.10);padding:5px 12px;border-radius:6px}
-  .spot h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:14px 0 4px;max-width:74%}
+  .spot .code{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--brand);background:rgba(54,102,171,.10);padding:5px 12px;border-radius:6px}
+  .spot h2{font-size:21px;font-weight:500;letter-spacing:-.02em;margin:14px 0 4px;max-width:74%}
   .spot p{font-size:13px;color:var(--sec)}
   .spotfoot{display:flex;gap:26px;margin-top:24px}
-  .spotfoot .v{font-size:19px;font-weight:800;letter-spacing:-.02em}.spotfoot .l{font-size:11px;color:var(--muted);margin-top:2px}
+  .spotfoot .v{font-size:19px;font-weight:500;letter-spacing:-.02em}.spotfoot .l{font-size:11px;color:var(--muted);margin-top:2px}
   .mini{padding:18px 22px;display:flex;align-items:center;gap:16px;flex:1}
   .miniIcon{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
-  .mini .n{font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1}
-  .mini .l{font-size:11px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .mini .n{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1}
+  .mini .l{font-size:11px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
   .fin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   .fin-tile{position:relative;border-radius:10px;padding:18px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);overflow:hidden}
-  .fin-tile .n{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:8px}.fin-tile .n small{font-size:14px}
+  .fin-tile .n{font-size:26px;font-weight:500;letter-spacing:-.02em;margin-top:8px}.fin-tile .n small{font-size:14px}
   .opgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .taskcard{padding:15px 18px;border-radius:10px;background:#fff;border:1px solid rgba(13,24,36,.07);
     box-shadow:0 4px 14px -6px rgba(13,24,36,.16);display:flex;justify-content:space-between;gap:12px;margin-bottom:10px;
@@ -73,7 +73,7 @@
   <div class="content">
     <div class="topbar">
       <div class="searchpill"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar proyecto...</div>
-      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:700">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
+      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:500">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
     </div>
 
     <div class="page">
@@ -92,7 +92,7 @@
               <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2e5893"/><stop offset="1" stop-color="#3666ab"/></linearGradient></defs>
               <circle cx="46" cy="46" r="38" fill="none" stroke="rgba(54,102,171,.12)" stroke-width="9"/>
               <circle cx="46" cy="46" r="38" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="69.2" transform="rotate(-90 46 46)"/>
-              <text x="46" y="51" text-anchor="middle" font-size="19" font-weight="800" fill="#2e5893" font-family="Manrope">71%</text>
+              <text x="46" y="51" text-anchor="middle" font-size="19" font-weight="400" fill="#2e5893" font-family="JetBrains Mono, monospace">71%</text>
             </svg>
           </div>
           <span class="code">0016002 · En ejecución</span>
@@ -190,16 +190,16 @@
       <p class="sec-h" style="margin-bottom:14px">Operación y riesgos</p>
       <div class="opgrid">
         <div class="gcard reveal d3" style="padding:22px">
-          <div style="display:flex;align-items:center;gap:8px;color:var(--danger);margin-bottom:12px"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg><span style="font-size:14px;font-weight:800;color:var(--text)">Proyectos atrasados</span></div>
+          <div style="display:flex;align-items:center;gap:8px;color:var(--danger);margin-bottom:12px"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg><span style="font-size:14px;font-weight:500;color:var(--text)">Proyectos atrasados</span></div>
           <div class="rrow" style="border-radius:8px;background:#fff;border:1px solid rgba(13,24,36,.06);box-shadow:0 4px 14px -6px rgba(13,24,36,.16);margin-bottom:8px"><span class="mk" style="background:linear-gradient(180deg,#d2434e,#e57a80)"></span><div style="flex:1;min-width:0"><div class="t">416 - Desarrollo y Soporte Core Positiva</div><div class="s">Vencido 31 ene 2024 · 923 días</div></div><span class="pct">0%</span><span class="arw">→</span></div>
           <div class="rrow" style="border-radius:8px;background:#fff;border:1px solid rgba(13,24,36,.06);box-shadow:0 4px 14px -6px rgba(13,24,36,.16);margin-bottom:8px"><span class="mk" style="background:linear-gradient(180deg,#b87a00,#d99c33)"></span><div style="flex:1;min-width:0"><div class="t">016 - Bus de Integraciones Sionta 2026</div><div class="s" style="color:var(--muted)">Vencido 13 feb 2026</div></div><span class="pct" style="color:#8a5a00">47%</span><span class="arw">→</span></div>
           <div class="rrow" style="border-radius:8px;background:#fff;border:1px solid rgba(13,24,36,.06);box-shadow:0 4px 14px -6px rgba(13,24,36,.16);margin-bottom:8px"><span class="mk" style="background:linear-gradient(180deg,#1f8f66,#31a37b)"></span><div style="flex:1;min-width:0"><div class="t">015 - Canguro · Sionta Tiendas Virtuales</div><div class="s" style="color:var(--muted)">Vencido 23 dic 2025</div></div><span class="pct" style="color:var(--recaudo)">97%</span><span class="arw">→</span></div>
         </div>
         <div class="gcard reveal d4" style="padding:22px">
-          <div style="display:flex;align-items:center;gap:8px;color:var(--brand);margin-bottom:12px"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span style="font-size:14px;font-weight:800;color:var(--text)">Tareas próximas (7 días)</span></div>
-          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:700">Documento de Arquitectura de la solución</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">348 - SGDEA Acueducto</div><span class="gp gp-sm gp-pend">Pendiente</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">10 ago</span></div>
-          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:700">Pruebas UAT</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">384 - Fiduprevisora</div><span class="gp gp-sm gp-pend">Pendiente</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">11 ago</span></div>
-          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:700">TRIBUTARIOS</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">384 - Core Fiduprevisora</div><span class="gp gp-sm gp-prog">En progreso</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">12 ago</span></div>
+          <div style="display:flex;align-items:center;gap:8px;color:var(--brand);margin-bottom:12px"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span style="font-size:14px;font-weight:500;color:var(--text)">Tareas próximas (7 días)</span></div>
+          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:500">Documento de Arquitectura de la solución</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">348 - SGDEA Acueducto</div><span class="gp gp-sm gp-pend">Pendiente</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">10 ago</span></div>
+          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:500">Pruebas UAT</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">384 - Fiduprevisora</div><span class="gp gp-sm gp-pend">Pendiente</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">11 ago</span></div>
+          <div class="taskcard"><div><div style="font-size:13.5px;font-weight:500">TRIBUTARIOS</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">384 - Core Fiduprevisora</div><span class="gp gp-sm gp-prog">En progreso</span></div><span style="font-size:11px;color:var(--muted);white-space:nowrap">12 ago</span></div>
         </div>
       </div>
     </div>
