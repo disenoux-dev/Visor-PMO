@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Compromisos · Visor PMO</title>
+<link rel="icon" type="image/svg+xml" href="assets/Recurso%209.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* filtros */
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:22px 0 16px}
+.filters .f label{display:block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.filters .fld{padding:9px 12px;font-size:13px}
+/* tabla */
+.rtable th{padding:8px 12px;white-space:nowrap}
+.rtable td{padding:12px;font-size:13px;vertical-align:top}
+.subrow{font-size:11px;color:var(--muted);margin-top:2px;font-weight:400}
+.tdate{font-size:12px;white-space:nowrap}
+.resp{font-size:12px;color:var(--sec)}
+.resp .more{display:inline-block;margin-top:3px;font-size:10px;font-weight:500;color:var(--azul-700);background:var(--azul-100);padding:2px 7px;border-radius:6px}
+/* descripción truncada + ver más */
+.dcell{max-width:280px}
+.dtxt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--sec)}
+.vermas{display:inline-flex;align-items:center;gap:4px;margin-top:5px;border:0;background:none;padding:0;cursor:pointer;
+  font-family:inherit;font-size:12px;font-weight:500;color:var(--brand)}
+.vermas:hover{text-decoration:underline}
+/* estado */
+.estado{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:.04em;padding:4px 10px;border-radius:6px;white-space:nowrap}
+.estado i{width:6px;height:6px;border-radius:999px;flex:none}
+.e-proceso{background:var(--alerta-100);color:var(--alerta-700)}.e-proceso i{background:var(--alerta-500)}
+.e-atrasada{background:var(--danger-100);color:var(--danger-700)}.e-atrasada i{background:var(--danger-500)}
+.e-completado{background:var(--exito-100);color:var(--exito-700)}.e-completado i{background:var(--exito-500)}
+.e-pendiente{background:rgba(57,70,94,.12);color:var(--sec)}.e-pendiente i{background:var(--muted)}
+.ir{font-size:12px;font-weight:500;color:var(--brand);text-decoration:none;white-space:nowrap}
+.ir:hover{text-decoration:underline}
+/* modal descripción */
+.dmeta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.dmeta .tag{font-size:11px;font-weight:500;color:var(--sec);background:rgba(57,70,94,.1);padding:4px 10px;border-radius:6px}
+.dfull{font-size:14px;line-height:1.65;color:var(--text);white-space:pre-line}
+</style>
+</head>
+<body>
+<!-- pantalla de carga -->
+<div class="loader" id="loader" role="status" aria-label="Cargando Visor PMO">
+  <svg class="liso" viewBox="0 0 87.95 100.91" aria-hidden="true">
+    <path class="lg-l" fill="#dae0ed" d="M46.35,100.91l-20.73-59.31c-.43-1.3-1.44-1.87-2.45-1.87s-2.02.72-2.45,1.87L0,100.91"/>
+    <path class="lg-r" fill="#6994d0" d="M87.95,100.91l-20.73-59.31c-.43-1.3-1.44-1.87-2.45-1.87s-2.02.72-2.45,1.87l-6.91,19.86,13.82,39.44"/>
+    <path class="lg-t" fill="#fff" d="M37.57,10.36l6.33,18.28,6.48-18.28c2.59-6.91,8.49-10.36,14.39-10.36H23.18c5.9,0,11.95,3.45,14.39,10.36Z"/>
+  </svg>
+  <div class="lbar"><i></i></div>
+  <span class="ltxt">Cargando</span>
+</div>
+<script>
+(function(){
+  const l = document.getElementById('loader');
+  let seen = false;
+  try { seen = !!sessionStorage.getItem('pmo-loaded'); } catch(e) {}
+  const hide = () => {
+    l.classList.add('done');
+    try { sessionStorage.setItem('pmo-loaded','1'); } catch(e) {}
+    setTimeout(() => l.remove(), 700);
+  };
+  if (seen) { l.classList.add('fast'); requestAnimationFrame(hide); return; }
+  const min  = new Promise(r => setTimeout(r, 1500));
+  const load = new Promise(r => window.addEventListener('load', r, {once:true}));
+  Promise.all([min, load]).then(hide);
+})();
+</script>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="dashboard.html"><img src="assets/PMO_3.svg" alt="Visor PMO — ir al dashboard" width="128" height="64"></a>
+    <nav style="display:flex;flex-direction:column;gap:4px">
+      <a class="navitem" href="dashboard.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Dashboard</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7h18M3 12h18M3 17h18"/></svg> Programas</a>
+      <a class="navitem" href="proyectos-list.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Proyectos</a>
+      <a class="navitem active" href="compromisos.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9.5 13.5 2 2 3.5-4"/></svg> Compromisos</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 12a8 8 0 0 1 14-5m2 5a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg> Solicitudes de cambio</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg> Seguimiento en cierre</a>
+      <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg> Matriz de madurez</a>
+    </nav>
+    <a class="navitem" style="margin-top:auto"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/></svg> Cerrar sesión</a>
+  </aside>
+  <div class="content">
+    <div class="topbar">
+      <div class="searchpill"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar proyecto...</div>
+      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:500">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
+    </div>
+    <div class="page">
+      <div style="position:relative">
+        <h1>Compromisos</h1>
+        <p class="subt">Vista global de compromisos y acciones de mejora de todos los proyectos.</p>
+      </div>
+
+      <!-- filtros -->
+      <div class="filters">
+        <div class="f"><label for="fProy">Proyecto</label><select class="fld" id="fProy"><option value="">Todos</option></select></div>
+        <div class="f"><label for="fEst">Estado</label><select class="fld" id="fEst">
+          <option value="">Todos</option><option value="proceso">En proceso</option><option value="atrasada">Atrasada</option>
+          <option value="completado">Completado</option><option value="pendiente">Pendiente</option></select></div>
+        <div class="f"><label for="fResp">Responsable</label><select class="fld" id="fResp"><option value="">Todos</option></select></div>
+        <div class="f"><label for="fIni">Fecha inicio</label><input class="fld" type="date" id="fIni"></div>
+        <div class="f"><label for="fFin">Fecha fin</label><input class="fld" type="date" id="fFin"></div>
+      </div>
+
+      <div class="gcard reveal d1 tscroll" style="padding:8px 6px 6px">
+        <span class="thint" aria-hidden="true">Más columnas <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        <div class="tviewport">
+        <table class="rtable">
+          <thead><tr>
+            <th>Proyecto</th><th>F. inicio</th><th>F. fin</th><th>F. reprogramada</th><th>Tipo de compromiso</th><th>Responsable</th><th>Descripción</th><th>Estado</th><th></th>
+          </tr></thead>
+          <tbody id="cbody"></tbody>
+        </table>
+        </div>
+        <!-- paginado -->
+        <div class="pager">
+          <span class="pinfo" id="pinfo" aria-live="polite"></span>
+          <div class="pbtns" id="pbtns" role="navigation" aria-label="Paginación de compromisos"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal de descripción completa -->
+<div id="dModal" style="display:none">
+  <div class="backdrop" data-close></div>
+  <div class="modalwrap">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+      <div class="mhead">
+        <h2 id="dmTitle" style="font-size:16px;font-weight:500;letter-spacing:-.01em">Detalle del compromiso</h2>
+        <button class="xbtn" data-close aria-label="Cerrar">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="dmeta" id="dmMeta"></div>
+        <p class="dfull" id="dmText"></p>
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" data-close>Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ------- datos de demo -------
+const RESP = {
+  eliana:'Eliana Teresa Miranda Álvarez', eduardo:'Eduardo Andrés Paredes Ruiz', sandra:'Sandra Milena Maldonado Peña',
+  edgar:'Edgar Fernando Vargas Rojas', francisco:'Francisco Javier González Mora', juan:'Juan Pablo Bohórquez Franco',
+  carolina:'Carolina Betancourt Uribe', luis:'Luis F. Chaparro'
+};
+const TIPOS = ['Reunión de seguimiento PMO','Acción de mejora','Comité directivo'];
+const DATA = [
+ {p:'005 - Proyecto Positiva', i:'2026-08-19', f:'2026-08-28', r:null, t:TIPOS[0], resp:[RESP.eliana], e:'proceso',
+  d:'Obtener fecha de reprogramación de la sesión de levantamiento de requerimientos con el equipo funcional de Positiva, considerando la disponibilidad del área de tecnología y la ventana de cambios aprobada por el comité. Documentar el nuevo cronograma y comunicarlo a los interesados.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-19', f:'2026-09-30', r:null, t:TIPOS[0], resp:[RESP.eliana,RESP.eduardo], e:'proceso',
+  d:'Enviar respuesta a los 7 comunicados una vez validada la postura jurídica del área de contratación. Incluir el soporte técnico de cada caso y dejar trazabilidad en el expediente del contrato.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-18', f:'2026-08-19', r:null, t:TIPOS[0], resp:[RESP.sandra,RESP.eduardo,RESP.edgar], e:'atrasada',
+  d:'Sesión de actualización de la matriz de riesgos del proyecto: revisar los riesgos materializados en el último trimestre, recalificar probabilidad e impacto, y definir planes de mitigación con responsables y fechas.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-19', f:'2026-09-15', r:null, t:TIPOS[0], resp:[RESP.sandra,RESP.eduardo], e:'proceso',
+  d:'Validar el nuevo cronograma del despliegue de los módulos de indemnizaciones con las áreas usuarias.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-19', f:'2026-09-30', r:null, t:TIPOS[0], resp:[RESP.eduardo], e:'proceso',
+  d:'Completar despliegue de los 6 flujos.\nValidar la planeación de los despliegues en los procesos de Monitoreo, incluyendo la coordinación con el proveedor de infraestructura, las pruebas de humo posteriores a cada ventana y el plan de rollback documentado para cada flujo.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-18', f:'2026-08-21', r:null, t:TIPOS[0], resp:[RESP.sandra], e:'atrasada',
+  d:'Formalizar agenda y horario fijo del comité de seguimiento semanal con el cliente.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-18', f:'2026-08-28', r:null, t:TIPOS[0], resp:[RESP.francisco,RESP.juan], e:'proceso',
+  d:'Definir plan de gestión de riesgos post-implementación.\nEstructurar respuesta a comunicado enviado por parte del cliente respecto a los acuerdos de nivel de servicio, con el análisis de capacidad del equipo de soporte y la propuesta de ajuste del modelo de atención para el primer trimestre de operación.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-20', f:'2026-09-05', r:'2026-09-12', t:TIPOS[1], resp:[RESP.juan], e:'proceso',
+  d:'Actualizar el tablero de indicadores del proyecto con los KPI acordados en el último comité.'},
+ {p:'421 - Proyecto Balú', i:'2026-08-21', f:'2026-08-29', r:null, t:TIPOS[2], resp:[RESP.carolina], e:'pendiente',
+  d:'Presentar al comité directivo el estado de avance del plan de transición y los hitos comprometidos para el cierre del año.'},
+ {p:'421 - Proyecto Balú', i:'2026-08-11', f:'2026-08-15', r:'2026-08-25', t:TIPOS[1], resp:[RESP.carolina,RESP.eliana], e:'atrasada',
+  d:'Documentar los acuerdos de la mesa técnica de integraciones: definición de contratos de servicios, versionamiento de APIs, política de reintentos y manejo de errores, y el plan de pruebas integradas entre el bus de integraciones y los sistemas core del cliente. El documento debe quedar publicado en el repositorio del proyecto y socializado con los líderes técnicos de ambas partes antes de la siguiente sesión.'},
+ {p:'348 - SGDEA Acueducto', i:'2026-08-12', f:'2026-08-30', r:null, t:TIPOS[0], resp:[RESP.luis], e:'proceso',
+  d:'Consolidar el inventario documental de las series en fase de migración y validar la completitud contra el cuadro de clasificación.'},
+ {p:'348 - SGDEA Acueducto', i:'2026-07-28', f:'2026-08-08', r:null, t:TIPOS[1], resp:[RESP.luis,RESP.edgar], e:'completado',
+  d:'Ejecutar las pruebas de carga del módulo de radicación con el volumen proyectado a 3 años.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-25', f:'2026-09-10', r:null, t:TIPOS[1], resp:[RESP.edgar], e:'pendiente',
+  d:'Elaborar el plan de capacitación de usuarios finales para los módulos de la fase 2, incluyendo material de apoyo, sesiones por rol y evaluación de adopción a los 30 días del despliegue.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-26', f:'2026-09-02', r:null, t:TIPOS[0], resp:[RESP.francisco], e:'pendiente',
+  d:'Revisar con el área jurídica el otrosí de ampliación de alcance.'},
+ {p:'421 - Proyecto Balú', i:'2026-08-05', f:'2026-08-12', r:null, t:TIPOS[0], resp:[RESP.eliana], e:'completado',
+  d:'Cerrar los hallazgos de la auditoría interna de calidad sobre la gestión documental del proyecto.'},
+ {p:'348 - SGDEA Acueducto', i:'2026-08-27', f:'2026-09-20', r:null, t:TIPOS[2], resp:[RESP.sandra], e:'pendiente',
+  d:'Preparar la presentación ejecutiva del avance del proyecto para la junta directiva del Acueducto, con el estado de los entregables, la ejecución presupuestal y los riesgos activos con su plan de tratamiento.'},
+ {p:'005 - Proyecto Positiva', i:'2026-08-14', f:'2026-08-22', r:'2026-08-29', t:TIPOS[0], resp:[RESP.eduardo,RESP.eliana], e:'atrasada',
+  d:'Definir la estrategia de datos maestros para la convivencia de los dos core durante la transición.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-10', f:'2026-08-17', r:null, t:TIPOS[1], resp:[RESP.juan], e:'completado',
+  d:'Publicar la versión 1.2 del manual de operación del servicio en el portal de conocimiento.'},
+ {p:'421 - Proyecto Balú', i:'2026-08-28', f:'2026-09-25', r:null, t:TIPOS[1], resp:[RESP.carolina], e:'pendiente',
+  d:'Levantar el mapa de interesados actualizado tras el cambio de gerencia en el cliente y ajustar el plan de comunicaciones del proyecto en consecuencia.'},
+ {p:'348 - SGDEA Acueducto', i:'2026-08-19', f:'2026-08-26', r:null, t:TIPOS[0], resp:[RESP.edgar,RESP.luis], e:'proceso',
+  d:'Resolver las observaciones de la interventoría sobre el entregable de arquitectura de información.'},
+ {p:'005 - Proyecto Positiva', i:'2026-09-01', f:'2026-09-08', r:null, t:TIPOS[2], resp:[RESP.sandra,RESP.eliana], e:'pendiente',
+  d:'Sustentar ante el comité directivo la solicitud de recursos adicionales para el frente de pruebas.'},
+ {p:'456 - Proyecto Innovación', i:'2026-08-22', f:'2026-09-14', r:null, t:TIPOS[0], resp:[RESP.francisco], e:'proceso',
+  d:'Coordinar la ventana de mantenimiento para la actualización del motor de reglas, notificando a los usuarios con una semana de antelación y validando el plan de contingencia con operaciones.'},
+ {p:'421 - Proyecto Balú', i:'2026-09-02', f:'2026-09-30', r:null, t:TIPOS[1], resp:[RESP.carolina,RESP.luis], e:'pendiente',
+  d:'Construir el tablero de seguimiento de compromisos del cliente con corte quincenal.'},
+];
+
+// ------- estado -------
+const PAGE = 10;
+let pagina = 1, filtrados = DATA;
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const fmt = iso => { if (!iso) return null; const [y,m,d] = iso.split('-'); return `${+d} ${MESES[+m-1]} ${y}`; };
+const ELIP = 120; // umbral de caracteres para truncar descripción
+const ECLASS = {proceso:['e-proceso','En proceso'], atrasada:['e-atrasada','Atrasada'], completado:['e-completado','Completado'], pendiente:['e-pendiente','Pendiente']};
+
+// poblar filtros con los valores reales de los datos
+const fProy = document.getElementById('fProy'), fEst = document.getElementById('fEst'),
+      fResp = document.getElementById('fResp'), fIni = document.getElementById('fIni'), fFin = document.getElementById('fFin');
+[...new Set(DATA.map(x => x.p))].sort().forEach(p => fProy.add(new Option(p, p)));
+[...new Set(DATA.flatMap(x => x.resp))].sort().forEach(r => fResp.add(new Option(r, r)));
+
+function aplicarFiltros(){
+  filtrados = DATA.filter(x =>
+    (!fProy.value || x.p === fProy.value) &&
+    (!fEst.value  || x.e === fEst.value) &&
+    (!fResp.value || x.resp.includes(fResp.value)) &&
+    (!fIni.value  || x.i >= fIni.value) &&
+    (!fFin.value  || x.f <= fFin.value));
+  pagina = 1;
+  render();
+}
+[fProy,fEst,fResp,fIni,fFin].forEach(el => el.addEventListener('change', aplicarFiltros));
+
+// ------- render de tabla + paginado -------
+const cbody = document.getElementById('cbody'), pinfo = document.getElementById('pinfo'), pbtns = document.getElementById('pbtns');
+
+function render(){
+  const total = filtrados.length, paginas = Math.max(1, Math.ceil(total / PAGE));
+  pagina = Math.min(pagina, paginas);
+  const desde = (pagina-1)*PAGE, hasta = Math.min(desde+PAGE, total);
+  cbody.innerHTML = '';
+
+  if (!total){
+    cbody.innerHTML = `<tr><td colspan="9"><div class="empty">No hay compromisos que coincidan con los filtros aplicados.<br>
+      <button class="btn btn-ghost" id="limpiar">Limpiar filtros</button></div></td></tr>`;
+    document.getElementById('limpiar').addEventListener('click', () => {
+      fProy.value = fEst.value = fResp.value = fIni.value = fFin.value = '';
+      aplicarFiltros();
+    });
+  } else {
+    filtrados.slice(desde, hasta).forEach((x, ix) => {
+      const tr = document.createElement('tr');
+      const [ecl, etxt] = ECLASS[x.e];
+      const resto = x.resp.length - 1;
+      const largo = x.d.length > ELIP || x.d.includes('\n');
+      tr.innerHTML =
+        `<td style="min-width:150px"><b>${x.p}</b></td>`+
+        `<td class="tdate font-mono">${fmt(x.i)}</td>`+
+        `<td class="tdate font-mono">${fmt(x.f)}</td>`+
+        `<td class="tdate font-mono">${x.r ? fmt(x.r) : '<span style="color:var(--muted);font-family:var(--font-sans)">—</span>'}</td>`+
+        `<td style="min-width:130px">${x.t}</td>`+
+        `<td class="resp" style="min-width:150px">${x.resp[0]}${resto ? `<br><span class="more">+${resto} responsable${resto>1?'s':''}</span>` : ''}</td>`+
+        `<td class="dcell"><div class="dtxt">${x.d.split('\n')[0]}</div>${largo ? '<button class="vermas" type="button">Ver descripción completa <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></button>' : ''}</td>`+
+        `<td><span class="estado ${ecl}"><i></i>${etxt}</span></td>`+
+        `<td style="text-align:right"><a class="ir" href="proyecto-detalle.html">Ir →</a></td>`;
+      if (largo) tr.querySelector('.vermas').addEventListener('click', () => abrirModal(x));
+      cbody.appendChild(tr);
+    });
+  }
+
+  // feedback de paginado
+  pinfo.textContent = total
+    ? `Mostrando ${desde+1}–${hasta} de ${total} compromiso${total===1?'':'s'} · página ${pagina} de ${paginas}`
+    : 'Sin resultados';
+  pbtns.innerHTML = '';
+  const btn = (txt, pg, {dis=false, act=false, label}={}) => {
+    const b = document.createElement('button');
+    b.className = 'pbtn' + (act ? ' act' : ''); b.textContent = txt; b.disabled = dis;
+    b.setAttribute('aria-label', label || `Ir a la página ${pg}`);
+    if (act) b.setAttribute('aria-current','page');
+    if (!dis && !act) b.addEventListener('click', () => { pagina = pg; render();
+      document.querySelector('.tviewport').scrollIntoView({behavior:'smooth', block:'start'}); });
+    pbtns.appendChild(b);
+  };
+  btn('‹', pagina-1, {dis: pagina===1, label:'Página anterior'});
+  for (let p = 1; p <= paginas; p++) btn(p, p, {act: p===pagina});
+  btn('›', pagina+1, {dis: pagina===paginas, label:'Página siguiente'});
+}
+
+// ------- modal de descripción -------
+const dModal = document.getElementById('dModal'), dmMeta = document.getElementById('dmMeta'), dmText = document.getElementById('dmText');
+let ultimoFoco = null;
+function abrirModal(x){
+  ultimoFoco = document.activeElement;
+  const [ecl, etxt] = ECLASS[x.e];
+  dmMeta.innerHTML = `<span class="tag">${x.p}</span><span class="tag">${x.t}</span>`+
+    `<span class="tag font-mono">${fmt(x.i)} → ${fmt(x.f)}</span>`+
+    (x.r ? `<span class="tag font-mono">Reprogramada: ${fmt(x.r)}</span>` : '')+
+    `<span class="estado ${ecl}"><i></i>${etxt}</span>`;
+  dmMeta.insertAdjacentHTML('beforeend', `<span class="tag">${x.resp.join(' · ')}</span>`);
+  dmText.textContent = x.d;
+  dModal.style.display = 'block';
+  dModal.querySelector('.xbtn').focus();
+}
+function cerrarModal(){
+  dModal.style.display = 'none';
+  if (ultimoFoco) ultimoFoco.focus();
+}
+dModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', cerrarModal));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && dModal.style.display === 'block') cerrarModal(); });
+
+// ------- señalización de scroll horizontal (patrón .tscroll) -------
+document.querySelectorAll('.tscroll').forEach(w => {
+  const v = w.querySelector('.tviewport');
+  const upd = () => w.classList.toggle('more', v.scrollWidth - v.clientWidth - v.scrollLeft > 4);
+  v.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  new MutationObserver(upd).observe(v, {childList:true, subtree:true});
+  upd();
+});
+
+render();
+</script>
+</body>
+</html>

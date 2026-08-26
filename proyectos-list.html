@@ -5,10 +5,32 @@
 <title>Proyectos · Visor PMO</title>
 <link rel="icon" type="image/svg+xml" href="assets/Recurso%209.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>.filterpill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);border-radius:6px;padding:9px 16px;font-size:13px;font-weight:500}
-.talla{display:inline-flex;background:rgba(57,70,94,.1);color:var(--sec);font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px}</style>
+.talla{display:inline-flex;background:rgba(57,70,94,.1);color:var(--sec);font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px}
+/* tabla compacta: sublíneas y cumplimiento */
+.rtable th{padding:8px 12px;white-space:nowrap}
+.rtable td{padding:12px;font-size:13px}
+.subrow{font-size:11px;color:var(--muted);margin-top:2px;font-weight:400}
+.tdates{font-size:12px;color:var(--sec);white-space:nowrap}
+.tval{white-space:nowrap}
+.cumpl{display:flex;align-items:center;gap:8px;min-width:96px}
+.cbar{flex:1;min-width:48px;height:4px;border-radius:2px;background:rgba(13,24,36,.08);overflow:hidden}
+.cbar i{display:block;height:100%;width:var(--w);border-radius:2px}
+.cpc{font-size:12px;min-width:34px;text-align:right}
+/* menú de acciones por fila */
+.kebab{width:30px;height:30px;border:1px solid rgba(13,24,36,.12);border-radius:6px;background:#fff;color:var(--sec);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s var(--ease)}
+.kebab:hover,.kebab[aria-expanded="true"]{border-color:rgba(54,102,171,.4);color:var(--brand)}
+.amenu{position:fixed;z-index:60;min-width:150px;background:#fff;border:1px solid rgba(13,24,36,.1);border-radius:8px;
+  box-shadow:0 16px 40px -12px rgba(13,24,36,.28);padding:6px;display:none}
+.amenu.open{display:block}
+.amenu button{display:block;width:100%;text-align:left;border:0;background:none;font-family:inherit;font-size:13px;
+  color:var(--text);padding:9px 12px;border-radius:6px;cursor:pointer}
+.amenu button:hover{background:var(--niebla-50)}
+.amenu button.danger{color:var(--danger-700)}
+.amenu button.danger:hover{background:var(--danger-100)}</style>
 </head>
 <body>
 <!-- pantalla de carga -->
@@ -44,6 +66,7 @@
       <a class="navitem" href="dashboard.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Dashboard</a>
       <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7h18M3 12h18M3 17h18"/></svg> Programas</a>
       <a class="navitem active" href="proyectos-list.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Proyectos</a>
+      <a class="navitem" href="compromisos.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9.5 13.5 2 2 3.5-4"/></svg> Compromisos</a>
       <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 12a8 8 0 0 1 14-5m2 5a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg> Solicitudes de cambio</a>
       <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg> Seguimiento en cierre</a>
       <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg> Matriz de madurez</a>
@@ -53,7 +76,7 @@
   <div class="content">
     <div class="topbar">
       <div class="searchpill"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar proyecto...</div>
-      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:700">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
+      <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:500">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
     </div>
     <div class="page">
       <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-end">
@@ -67,30 +90,38 @@
         <span class="filterpill">Talla: <b>todas</b> <span style="color:var(--muted)">▾</span></span>
       </div>
 
-      <div class="gcard reveal d1" style="padding:8px 6px 6px;overflow:hidden">
+      <div class="gcard reveal d1 tscroll" style="padding:8px 6px 6px">
+        <span class="thint" aria-hidden="true">Más columnas <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        <div class="tviewport">
         <table class="rtable">
           <thead><tr>
-            <th>Proyecto</th><th>Gerente</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th></th>
+            <th>Proyecto</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th>Cumplimiento</th><th style="text-align:right">Acciones</th>
           </tr></thead>
-          <tbody>
-            <tr><td><b>421 - Proyecto Balú</b></td><td style="color:var(--sec)">Evelio Zambrano</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="color:var(--sec);font-size:13px">Positiva Cía. de Seguros</td><td style="font-size:12px;color:var(--sec)">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td style="text-align:right;font-weight:800">$120.124.866.978</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>348 - SGDEA Acueducto</b></td><td style="color:var(--sec)">Alejandro Castiblanco</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="color:var(--muted)">—</td><td style="font-size:12px;color:var(--sec)">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td style="text-align:right;font-weight:800">$13.126.664.337</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>461 - Cuentas Claras</b></td><td style="color:var(--sec)">Heriberto Quiñonez</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--sec);font-size:13px">Fernan Ocampo G.</td><td style="font-size:12px;color:var(--sec)">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td style="text-align:right;font-weight:800">$1</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>457 - Portales Digitales · La Equidad</b></td><td style="color:var(--sec)">Luis F. Chaparro</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="color:var(--sec);font-size:13px">La Equidad Seguros</td><td style="font-size:12px;color:var(--sec)">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td style="text-align:right;font-weight:800">$422.630.880</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>406 - Proyecto SAP EY</b></td><td style="color:var(--sec)">Maritza A. Reinel</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="color:var(--sec);font-size:13px">Ernst &amp; Young SAS</td><td style="font-size:12px;color:var(--sec)">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td style="text-align:right;font-weight:800">$4.845.680.000</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-          </tbody>
+          <tbody id="pbody"></tbody>
         </table>
+        </div>
+        <div class="pager">
+          <span class="pinfo" id="pinfo" aria-live="polite"></span>
+          <div class="pbtns" id="pbtns" role="navigation" aria-label="Paginación de proyectos"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+<!-- menú de acciones (compartido por todas las filas) -->
+<div class="amenu" id="amenu" role="menu" aria-label="Acciones del proyecto">
+  <button type="button" role="menuitem">Editar</button>
+  <button type="button" role="menuitem">Clonar</button>
+  <button type="button" role="menuitem" class="danger">Eliminar</button>
+</div>
+
 <!-- Modal Nuevo proyecto (overlay in-place) -->
 <div id="npModal" style="display:none">
   <div class="backdrop" data-close></div>
   <div class="modalwrap">
     <div class="modal">
       <div class="mhead">
-        <h2 style="font-size:18px;font-weight:800;letter-spacing:-.01em">Nuevo proyecto</h2>
+        <h2 style="font-size:18px;font-weight:500;letter-spacing:-.01em">Nuevo proyecto</h2>
         <button class="xbtn" data-close>✕</button>
       </div>
       <div class="mbody">
@@ -115,15 +146,124 @@
 </div>
 
 <script>
-  // cada fila de la tabla → detalle del proyecto
-  document.querySelectorAll('.rtable tbody tr').forEach(tr => {
-    tr.addEventListener('click', () => location.href = 'proyecto-detalle.html');
+  // ------- datos de demo: los 28 proyectos activos -------
+  const FASES = {prog:['Ejecución','gp-prog'], cierre:['Cierre','gp-cierre'], plan:['Planificación','gp-pend']};
+  const D = '<span style="color:var(--brand)">→</span>';
+  // [código y nombre, gerente, fase, talla, cliente, f. inicio, f. fin, valor, cumplimiento]
+  const DATA = [
+   ['421 - Proyecto Balú','Evelio Zambrano','prog','XXL','Positiva Cía. de Seguros','23 may 2025','31 dic 2027','$120.124.866.978',0],
+   ['440 - Proyecto Arquitectura de Imágenes CCB','Carolina Betancourt Uribe','cierre','S','Cámara de Comercio de Bogotá','11 nov 2025','28 may 2026','$1.004.667.252',0],
+   ['348 - SGDEA Acueducto','Alejandro Castiblanco','prog','XL',null,'23 dic 2022','26 feb 2026','$13.126.664.337',72],
+   ['461 - Cuentas Claras','Heriberto Quiñonez',null,null,'Fernan Ocampo G.','20 may 2026','20 may 2026','$1',null],
+   ['457 - Portales Digitales · La Equidad','Luis F. Chaparro','prog','S','La Equidad Seguros','01 feb 2026','31 dic 2027','$422.630.880',38],
+   ['406 - Proyecto SAP EY','Maritza A. Reinel','prog','M','Ernst & Young SAS','18 jul 2026','14 ago 2026','$4.845.680.000',85],
+   ['016 - Bus de Integraciones Sionta 2026','Eliana Teresa Miranda','prog','L','Sionta','13 feb 2025','13 feb 2027','$8.940.115.200',47],
+   ['015 - Canguro · Sionta Tiendas Virtuales','Eduardo Andrés Paredes','cierre','M','Sionta','02 mar 2024','23 dic 2025','$2.310.480.000',97],
+   ['416 - Desarrollo y Soporte Core Positiva','Sandra Milena Maldonado','prog','XL','Positiva Cía. de Seguros','15 ene 2023','31 ene 2024','$18.220.340.500',0],
+   ['384 - Core Fiduprevisora','Edgar Fernando Vargas','prog','XXL','Fiduprevisora','04 jun 2024','30 jun 2027','$96.410.220.310',54],
+   ['432 - Portal Transaccional Findeter','Juan Pablo Bohórquez','plan','M','Findeter','01 sep 2026','30 jun 2027','$3.150.900.000',null],
+   ['428 - Analítica de Cartera Icetex','Francisco Javier González','prog','L','Icetex','12 mar 2026','12 mar 2027','$5.870.114.980',22],
+   ['419 - Mesa de Servicios MinTIC','Carolina Betancourt Uribe','prog','XL','MinTIC','01 ene 2025','31 dic 2026','$22.480.775.400',61],
+   ['445 - App Movilidad Transmilenio','Luis F. Chaparro','plan','L','Transmilenio S.A.','15 oct 2026','15 oct 2027','$7.204.560.000',null],
+   ['402 - Historia Clínica Interoperable','Maritza A. Reinel','prog','XXL','MinSalud','20 ago 2024','20 ago 2027','$64.118.900.220',43],
+   ['451 - Chatbot Atención DIAN','Evelio Zambrano','prog','S','DIAN','05 abr 2026','05 oct 2026','$980.450.700',66],
+   ['396 - Migración Cloud Banco Agrario','Alejandro Castiblanco','cierre','XL','Banco Agrario','10 feb 2024','10 feb 2026','$15.660.208.900',91],
+   ['438 - Firma Digital Notariado','Heriberto Quiñonez','prog','M','Superintendencia de Notariado','01 jun 2026','01 jun 2027','$2.874.300.150',18],
+   ['425 - Observatorio de Datos SED','Sandra Milena Maldonado','prog','M','Secretaría de Educación','15 nov 2025','15 nov 2026','$3.912.640.000',58],
+   ['447 - Ventanilla Única Ambiental','Edgar Fernando Vargas','plan','L','MinAmbiente','01 dic 2026','01 dic 2027','$6.540.880.320',null],
+   ['409 - CRM Comercial EPM','Juan Pablo Bohórquez','prog','L','EPM','22 may 2025','22 may 2027','$11.230.450.680',35],
+   ['434 - Pasarela de Pagos GovCo','Francisco Javier González','prog','XL','AND Digital','08 jul 2025','08 jul 2027','$28.960.114.200',49],
+   ['442 - Gestión Documental Cancillería','Eliana Teresa Miranda','plan','M','Cancillería','01 feb 2027','01 feb 2028','$4.470.200.000',null],
+   ['391 - Token Bus Devengo','Eduardo Andrés Paredes','cierre','S','Sionta','15 mar 2024','15 sep 2025','$1.240.882.400',100],
+   ['455 - Portal Proveedores Ecopetrol','Carolina Betancourt Uribe','plan','XL','Ecopetrol','01 mar 2027','01 mar 2029','$34.200.500.100',null],
+   ['413 - Biometría Registraduría','Luis F. Chaparro','prog','XXL','Registraduría Nacional','10 oct 2024','10 oct 2027','$81.334.900.760',52],
+   ['449 - Tablero BI Supersalud','Maritza A. Reinel','prog','S','Supersalud','20 jun 2026','20 dic 2026','$1.118.400.900',29],
+   ['393 - Núcleo Académico UNAL','Evelio Zambrano','cierre','L','Universidad Nacional','01 ago 2023','01 ago 2025','$9.980.220.140',88],
+  ];
+
+  const PAGE = 10;
+  let pagina = 1;
+  const pbody = document.getElementById('pbody'), pinfo = document.getElementById('pinfo'), pbtns = document.getElementById('pbtns');
+  const colorC = v => v < 34 ? ['#d2434e','#b3323c'] : v < 67 ? ['#b87a00','#8a5a00'] : ['#1f8f66','#17694b'];
+
+  function render(){
+    const total = DATA.length, paginas = Math.ceil(total / PAGE);
+    const desde = (pagina-1)*PAGE, hasta = Math.min(desde+PAGE, total);
+    pbody.innerHTML = '';
+    DATA.slice(desde, hasta).forEach(r => {
+      const [nom, ger, fase, talla, cli, fi, ff, val, cum] = r;
+      const f = fase ? `<span class="gp gp-sm ${FASES[fase][1]}">${FASES[fase][0]}</span>` : '<span style="color:var(--muted)">—</span>';
+      const t = talla ? `<span class="talla">${talla}</span>` : '<span style="color:var(--muted)">—</span>';
+      const c = cum === null ? '<span style="color:var(--muted)">—</span>'
+        : `<div class="cumpl"><div class="cbar"><i style="--w:${cum}%;background:${colorC(cum)[0]}"></i></div><span class="cpc font-mono" style="color:${colorC(cum)[1]}">${cum}%</span></div>`;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><b>${nom}</b><div class="subrow">${ger}</div></td><td>${f}</td><td>${t}</td>`+
+        `<td style="font-size:13px;color:var(--sec)">${cli || "<span style='color:var(--muted)'>—</span>"}<div class="subrow">Linktic S.A.S</div></td>`+
+        `<td class="tdates">${fi} ${D} ${ff}</td>`+
+        `<td class="font-mono tval" style="text-align:right;font-weight:400">${val}</td>`+
+        `<td>${c}</td>`+
+        `<td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td>`;
+      tr.addEventListener('click', e => { if (!e.target.closest('.kebab')) location.href = 'proyecto-detalle.html'; });
+      pbody.appendChild(tr);
+    });
+
+    pinfo.textContent = `Mostrando ${desde+1}–${hasta} de ${total} proyectos · página ${pagina} de ${paginas}`;
+    pbtns.innerHTML = '';
+    const btn = (txt, pg, {dis=false, act=false, label}={}) => {
+      const b = document.createElement('button');
+      b.className = 'pbtn' + (act ? ' act' : ''); b.textContent = txt; b.disabled = dis;
+      b.setAttribute('aria-label', label || `Ir a la página ${pg}`);
+      if (act) b.setAttribute('aria-current','page');
+      if (!dis && !act) b.addEventListener('click', () => { pagina = pg; render();
+        document.querySelector('.tviewport').scrollIntoView({behavior:'smooth', block:'start'}); });
+      pbtns.appendChild(b);
+    };
+    btn('‹', pagina-1, {dis: pagina===1, label:'Página anterior'});
+    for (let pg = 1; pg <= paginas; pg++) btn(pg, pg, {act: pg===pagina});
+    btn('›', pagina+1, {dis: pagina===paginas, label:'Página siguiente'});
+  }
+
+  // ------- menú de acciones (kebab) con delegación: sobrevive al re-render -------
+  const amenu = document.getElementById('amenu');
+  let kebabAbierto = null;
+  const cerrarMenu = () => {
+    amenu.classList.remove('open');
+    if (kebabAbierto) { kebabAbierto.setAttribute('aria-expanded','false'); kebabAbierto = null; }
+  };
+  document.addEventListener('click', e => {
+    const k = e.target.closest('.kebab');
+    if (!k) { if (!e.target.closest('.amenu')) cerrarMenu(); return; }
+    if (kebabAbierto === k) { cerrarMenu(); return; }
+    cerrarMenu();
+    kebabAbierto = k; k.setAttribute('aria-expanded','true');
+    amenu.classList.add('open');
+    const r = k.getBoundingClientRect(), mw = amenu.offsetWidth, mh = amenu.offsetHeight;
+    let top = r.bottom + 6;
+    if (top + mh > innerHeight - 8) top = r.top - mh - 6;
+    amenu.style.top = top + 'px';
+    amenu.style.left = Math.max(8, Math.min(r.right - mw, innerWidth - mw - 8)) + 'px';
   });
-  // modal Nuevo proyecto (abre/cierra en la misma vista)
+  amenu.querySelectorAll('button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); cerrarMenu(); }));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarMenu(); });
+  window.addEventListener('scroll', cerrarMenu, true);
+
+  // ------- señalización de scroll horizontal -------
+  document.querySelectorAll('.tscroll').forEach(w => {
+    const v = w.querySelector('.tviewport');
+    const upd = () => w.classList.toggle('more', v.scrollWidth - v.clientWidth - v.scrollLeft > 4);
+    v.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd);
+    new MutationObserver(upd).observe(v, {childList:true, subtree:true});
+    upd();
+  });
+
+  // ------- modal Nuevo proyecto -------
   const np = document.getElementById('npModal');
   document.getElementById('openNp').addEventListener('click', () => np.style.display = 'block');
   np.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => np.style.display = 'none'));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') np.style.display = 'none'; });
+
+  render();
 </script>
 </body>
 </html>
