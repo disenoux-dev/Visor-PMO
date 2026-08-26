@@ -65,9 +65,21 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-
 .shell{display:flex;min-height:100vh;position:relative;z-index:1}
 .sidebar{width:248px;flex:none;padding:20px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
   background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.42));backdrop-filter:blur(18px);
-  border-right:1px solid rgba(255,255,255,.6)}
+  border-right:1px solid rgba(255,255,255,.6);transition:width .35s var(--ease),padding .35s var(--ease)}
+/* -- menú colapsado (clase navc en <html>) -- */
+.navcollapse{align-self:flex-end;margin-bottom:10px;width:28px;height:28px;flex:none;border:1px solid rgba(13,24,36,.12);
+  border-radius:6px;background:#fff;color:var(--sec);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s var(--ease)}
+.navcollapse:hover{color:var(--brand);border-color:rgba(54,102,171,.4)}
+.navcollapse svg{transition:transform .35s var(--ease)}
+.navc .navcollapse{align-self:center}
+.navc .navcollapse svg{transform:rotate(180deg)}
+.navc .sidebar{width:68px;padding:20px 10px}
+.navc .brand{padding:6px 0 16px;display:flex;justify-content:center}
+.navc .brand img{width:34px}
+.navc .navitem{font-size:0;gap:0;justify-content:center;padding:11px}
 .brand{display:block;padding:6px 8px 22px}
-.brand img{display:block;width:128px;height:auto}
+.brand img{display:block;width:128px;height:auto;transition:width .35s var(--ease)}
 .navitem{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;font-size:13.5px;color:var(--sec);
   font-weight:500;transition:all .2s var(--ease);line-height:1.25;text-decoration:none;cursor:pointer}
 .navitem svg{flex:none}
@@ -155,7 +167,10 @@ select.fld{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 
 /* ---- table ---- */
 .rtable{width:100%;text-align:left;border-collapse:separate;border-spacing:0}
-.rtable th{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 18px}
+.rtable thead th{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--azul-700);background:var(--azul-100);padding:10px 18px}
+.rtable thead th:first-child{border-radius:6px 0 0 6px}
+.rtable thead th:last-child{border-radius:0 6px 6px 0}
 .rtable tbody tr{transition:background .2s var(--ease);cursor:pointer}
 .rtable tbody tr:hover{background:rgba(255,255,255,.6)}
 .rtable tbody tr:hover .arw{opacity:1;transform:translateX(0)}
