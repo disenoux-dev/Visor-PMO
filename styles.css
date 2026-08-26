@@ -155,7 +155,10 @@ select.fld{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 
 /* ---- table ---- */
 .rtable{width:100%;text-align:left;border-collapse:separate;border-spacing:0}
-.rtable th{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 18px}
+.rtable thead th{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--grisazul-200);background:var(--cobalto-800);padding:10px 18px}
+.rtable thead th:first-child{border-radius:6px 0 0 6px}
+.rtable thead th:last-child{border-radius:0 6px 6px 0}
 .rtable tbody tr{transition:background .2s var(--ease);cursor:pointer}
 .rtable tbody tr:hover{background:rgba(255,255,255,.6)}
 .rtable tbody tr:hover .arw{opacity:1;transform:translateX(0)}
