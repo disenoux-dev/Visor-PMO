@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>try{if(localStorage.getItem('pmo-nav')==='1')document.documentElement.classList.add('navc')}catch(e){}</script>
+<script src="app.js" defer></script>
 <style>
 /* filtros */
 .filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:22px 0 16px}
@@ -74,6 +76,7 @@
 <div class="shell">
   <aside class="sidebar">
     <a class="brand" href="dashboard.html"><img src="assets/PMO_3.svg" alt="Visor PMO — ir al dashboard" width="128" height="64"></a>
+    <button class="navcollapse" type="button" aria-expanded="true" aria-label="Colapsar menú"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m11 17-5-5 5-5M18 17l-5-5 5-5"/></svg></button>
     <nav style="display:flex;flex-direction:column;gap:4px">
       <a class="navitem" href="dashboard.html"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Dashboard</a>
       <a class="navitem"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 7h18M3 12h18M3 17h18"/></svg> Programas</a>
