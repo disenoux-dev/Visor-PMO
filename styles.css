@@ -112,6 +112,7 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.03em}
 .gp-atr{background:var(--danger-100);color:var(--danger-700)}
 .gp-done{background:var(--exito-100);color:var(--exito-700)}
 .gp-media{background:var(--alerta-100);color:var(--alerta-700)}
+.gp-cierre{background:var(--azul-100);color:var(--azul-700)}
 .gp-sm{font-size:11px;padding:5px 12px}
 
 /* ---- KPI ---- */
@@ -252,3 +253,16 @@ body .spotfoot .v, body .mini .n, body .fin-tile .n,
 body .mtile .mval, body .ktile .kv,
 body .ctl .pt b, body .gantt-axis span, body .gbar, body .mchip .v{
   font-family:var(--font-mono);font-weight:400}
+
+/* ---- tabla ancha: scroll horizontal señalizado ---- */
+.tscroll{position:relative}
+.tscroll .tviewport{overflow-x:auto}
+.tscroll::after{content:"";position:absolute;top:0;right:0;bottom:0;width:64px;pointer-events:none;opacity:0;
+  border-radius:0 10px 10px 0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.96));
+  transition:opacity .25s var(--ease)}
+.tscroll.more::after{opacity:1}
+.tscroll .thint{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:2;pointer-events:none;opacity:0;
+  display:inline-flex;align-items:center;gap:6px;background:var(--cobalto-800);color:#fff;font-size:10px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:6px;white-space:nowrap;
+  transition:opacity .25s var(--ease)}
+.tscroll.more .thint{opacity:1}

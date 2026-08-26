@@ -8,7 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>.filterpill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);border-radius:6px;padding:9px 16px;font-size:13px;font-weight:500}
-.talla{display:inline-flex;background:rgba(57,70,94,.1);color:var(--sec);font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px}</style>
+.talla{display:inline-flex;background:rgba(57,70,94,.1);color:var(--sec);font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px}
+/* tabla compacta: sublíneas y cumplimiento */
+.rtable th{padding:8px 12px;white-space:nowrap}
+.rtable td{padding:12px}
+.subrow{font-size:11px;color:var(--muted);margin-top:2px;font-weight:400}
+.tdates{font-size:12px;color:var(--sec);white-space:nowrap}
+.tval{white-space:nowrap}
+.cumpl{display:flex;align-items:center;gap:8px;min-width:96px}
+.cbar{flex:1;min-width:48px;height:4px;border-radius:2px;background:rgba(13,24,36,.08);overflow:hidden}
+.cbar i{display:block;height:100%;width:var(--w);border-radius:2px}
+.cpc{font-size:12px;min-width:34px;text-align:right}</style>
 </head>
 <body>
 <!-- pantalla de carga -->
@@ -67,19 +77,23 @@
         <span class="filterpill">Talla: <b>todas</b> <span style="color:var(--muted)">▾</span></span>
       </div>
 
-      <div class="gcard reveal d1" style="padding:8px 6px 6px;overflow:hidden">
+      <div class="gcard reveal d1 tscroll" style="padding:8px 6px 6px">
+        <span class="thint" aria-hidden="true">Más columnas <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        <div class="tviewport">
         <table class="rtable">
           <thead><tr>
-            <th>Proyecto</th><th>Gerente</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th></th>
+            <th>Proyecto</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th>Cumplimiento</th><th style="text-align:right">Acciones</th>
           </tr></thead>
           <tbody>
-            <tr><td><b>421 - Proyecto Balú</b></td><td style="color:var(--sec)">Evelio Zambrano</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="color:var(--sec);font-size:13px">Positiva Cía. de Seguros</td><td style="font-size:12px;color:var(--sec)">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono" style="text-align:right;font-weight:400">$120.124.866.978</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>348 - SGDEA Acueducto</b></td><td style="color:var(--sec)">Alejandro Castiblanco</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="color:var(--muted)">—</td><td style="font-size:12px;color:var(--sec)">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td class="font-mono" style="text-align:right;font-weight:400">$13.126.664.337</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>461 - Cuentas Claras</b></td><td style="color:var(--sec)">Heriberto Quiñonez</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--sec);font-size:13px">Fernan Ocampo G.</td><td style="font-size:12px;color:var(--sec)">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td class="font-mono" style="text-align:right;font-weight:400">$1</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>457 - Portales Digitales · La Equidad</b></td><td style="color:var(--sec)">Luis F. Chaparro</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="color:var(--sec);font-size:13px">La Equidad Seguros</td><td style="font-size:12px;color:var(--sec)">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono" style="text-align:right;font-weight:400">$422.630.880</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>406 - Proyecto SAP EY</b></td><td style="color:var(--sec)">Maritza A. Reinel</td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="color:var(--sec);font-size:13px">Ernst &amp; Young SAS</td><td style="font-size:12px;color:var(--sec)">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td class="font-mono" style="text-align:right;font-weight:400">$4.845.680.000</td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>421 - Proyecto Balú</b><div class="subrow">Evelio Zambrano</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="font-size:13px;color:var(--sec)">Positiva Cía. de Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$120.124.866.978</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>440 - Proyecto Arquitectura de Imágenes CCB</b><div class="subrow">Carolina Betancourt Uribe</div></td><td><span class="gp gp-sm gp-cierre">Cierre</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">Cámara de Comercio de Bogotá<div class="subrow">Linktic S.A.S</div></td><td class="tdates">11 nov 2025 <span style="color:var(--brand)">→</span> 28 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1.004.667.252</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>348 - SGDEA Acueducto</b><div class="subrow">Alejandro Castiblanco</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="font-size:13px;color:var(--sec)"><span style="color:var(--muted)">—</span><div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$13.126.664.337</td><td><div class="cumpl"><div class="cbar"><i style="--w:72%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">72%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>461 - Cuentas Claras</b><div class="subrow">Heriberto Quiñonez</div></td><td><span style="color:var(--muted)">—</span></td><td><span style="color:var(--muted)">—</span></td><td style="font-size:13px;color:var(--sec)">Fernan Ocampo G.<div class="subrow">Linktic S.A.S</div></td><td class="tdates">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1</td><td><span style="color:var(--muted)">—</span></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>457 - Portales Digitales · La Equidad</b><div class="subrow">Luis F. Chaparro</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">La Equidad Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$422.630.880</td><td><div class="cumpl"><div class="cbar"><i style="--w:38%;background:#b87a00"></i></div><span class="cpc font-mono" style="color:#8a5a00">38%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>406 - Proyecto SAP EY</b><div class="subrow">Maritza A. Reinel</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="font-size:13px;color:var(--sec)">Ernst & Young SAS<div class="subrow">Linktic S.A.S</div></td><td class="tdates">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$4.845.680.000</td><td><div class="cumpl"><div class="cbar"><i style="--w:85%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">85%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +129,15 @@
 </div>
 
 <script>
+  // señalizar columnas ocultas a la derecha (scroll horizontal)
+  document.querySelectorAll('.tscroll').forEach(w => {
+    const v = w.querySelector('.tviewport');
+    const upd = () => w.classList.toggle('more', v.scrollWidth - v.clientWidth - v.scrollLeft > 4);
+    v.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd);
+    upd();
+  });
+
   // cada fila de la tabla → detalle del proyecto
   document.querySelectorAll('.rtable tbody tr').forEach(tr => {
     tr.addEventListener('click', () => location.href = 'proyecto-detalle.html');
