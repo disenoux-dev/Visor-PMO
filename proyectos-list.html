@@ -18,7 +18,19 @@
 .cumpl{display:flex;align-items:center;gap:8px;min-width:96px}
 .cbar{flex:1;min-width:48px;height:4px;border-radius:2px;background:rgba(13,24,36,.08);overflow:hidden}
 .cbar i{display:block;height:100%;width:var(--w);border-radius:2px}
-.cpc{font-size:12px;min-width:34px;text-align:right}</style>
+.cpc{font-size:12px;min-width:34px;text-align:right}
+/* menú de acciones por fila */
+.kebab{width:30px;height:30px;border:1px solid rgba(13,24,36,.12);border-radius:6px;background:#fff;color:var(--sec);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s var(--ease)}
+.kebab:hover,.kebab[aria-expanded="true"]{border-color:rgba(54,102,171,.4);color:var(--brand)}
+.amenu{position:fixed;z-index:60;min-width:150px;background:#fff;border:1px solid rgba(13,24,36,.1);border-radius:8px;
+  box-shadow:0 16px 40px -12px rgba(13,24,36,.28);padding:6px;display:none}
+.amenu.open{display:block}
+.amenu button{display:block;width:100%;text-align:left;border:0;background:none;font-family:inherit;font-size:13px;
+  color:var(--text);padding:9px 12px;border-radius:6px;cursor:pointer}
+.amenu button:hover{background:var(--niebla-50)}
+.amenu button.danger{color:var(--danger-700)}
+.amenu button.danger:hover{background:var(--danger-100)}</style>
 </head>
 <body>
 <!-- pantalla de carga -->
@@ -85,12 +97,12 @@
             <th>Proyecto</th><th>Fase</th><th>Talla</th><th>Cliente</th><th>Fechas de contrato</th><th style="text-align:right">Valor</th><th>Cumplimiento</th><th style="text-align:right">Acciones</th>
           </tr></thead>
           <tbody>
-            <tr><td><b>421 - Proyecto Balú</b><div class="subrow">Evelio Zambrano</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="font-size:13px;color:var(--sec)">Positiva Cía. de Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$120.124.866.978</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>440 - Proyecto Arquitectura de Imágenes CCB</b><div class="subrow">Carolina Betancourt Uribe</div></td><td><span class="gp gp-sm gp-cierre">Cierre</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">Cámara de Comercio de Bogotá<div class="subrow">Linktic S.A.S</div></td><td class="tdates">11 nov 2025 <span style="color:var(--brand)">→</span> 28 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1.004.667.252</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>348 - SGDEA Acueducto</b><div class="subrow">Alejandro Castiblanco</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="font-size:13px;color:var(--sec)"><span style="color:var(--muted)">—</span><div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$13.126.664.337</td><td><div class="cumpl"><div class="cbar"><i style="--w:72%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">72%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>461 - Cuentas Claras</b><div class="subrow">Heriberto Quiñonez</div></td><td><span style="color:var(--muted)">—</span></td><td><span style="color:var(--muted)">—</span></td><td style="font-size:13px;color:var(--sec)">Fernan Ocampo G.<div class="subrow">Linktic S.A.S</div></td><td class="tdates">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1</td><td><span style="color:var(--muted)">—</span></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>457 - Portales Digitales · La Equidad</b><div class="subrow">Luis F. Chaparro</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">La Equidad Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$422.630.880</td><td><div class="cumpl"><div class="cbar"><i style="--w:38%;background:#b87a00"></i></div><span class="cpc font-mono" style="color:#8a5a00">38%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
-            <tr><td><b>406 - Proyecto SAP EY</b><div class="subrow">Maritza A. Reinel</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="font-size:13px;color:var(--sec)">Ernst & Young SAS<div class="subrow">Linktic S.A.S</div></td><td class="tdates">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$4.845.680.000</td><td><div class="cumpl"><div class="cbar"><i style="--w:85%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">85%</span></div></td><td style="text-align:right"><span class="arw-sm">→</span></td></tr>
+            <tr><td><b>421 - Proyecto Balú</b><div class="subrow">Evelio Zambrano</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XXL</span></td><td style="font-size:13px;color:var(--sec)">Positiva Cía. de Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 may 2025 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$120.124.866.978</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
+            <tr><td><b>440 - Proyecto Arquitectura de Imágenes CCB</b><div class="subrow">Carolina Betancourt Uribe</div></td><td><span class="gp gp-sm gp-cierre">Cierre</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">Cámara de Comercio de Bogotá<div class="subrow">Linktic S.A.S</div></td><td class="tdates">11 nov 2025 <span style="color:var(--brand)">→</span> 28 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1.004.667.252</td><td><div class="cumpl"><div class="cbar"><i style="--w:0%;background:#d2434e"></i></div><span class="cpc font-mono" style="color:#b3323c">0%</span></div></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
+            <tr><td><b>348 - SGDEA Acueducto</b><div class="subrow">Alejandro Castiblanco</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">XL</span></td><td style="font-size:13px;color:var(--sec)"><span style="color:var(--muted)">—</span><div class="subrow">Linktic S.A.S</div></td><td class="tdates">23 dic 2022 <span style="color:var(--brand)">→</span> 26 feb 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$13.126.664.337</td><td><div class="cumpl"><div class="cbar"><i style="--w:72%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">72%</span></div></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
+            <tr><td><b>461 - Cuentas Claras</b><div class="subrow">Heriberto Quiñonez</div></td><td><span style="color:var(--muted)">—</span></td><td><span style="color:var(--muted)">—</span></td><td style="font-size:13px;color:var(--sec)">Fernan Ocampo G.<div class="subrow">Linktic S.A.S</div></td><td class="tdates">20 may 2026 <span style="color:var(--brand)">→</span> 20 may 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$1</td><td><span style="color:var(--muted)">—</span></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
+            <tr><td><b>457 - Portales Digitales · La Equidad</b><div class="subrow">Luis F. Chaparro</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">S</span></td><td style="font-size:13px;color:var(--sec)">La Equidad Seguros<div class="subrow">Linktic S.A.S</div></td><td class="tdates">01 feb 2026 <span style="color:var(--brand)">→</span> 31 dic 2027</td><td class="font-mono tval" style="text-align:right;font-weight:400">$422.630.880</td><td><div class="cumpl"><div class="cbar"><i style="--w:38%;background:#b87a00"></i></div><span class="cpc font-mono" style="color:#8a5a00">38%</span></div></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
+            <tr><td><b>406 - Proyecto SAP EY</b><div class="subrow">Maritza A. Reinel</div></td><td><span class="gp gp-sm gp-prog">Ejecución</span></td><td><span class="talla">M</span></td><td style="font-size:13px;color:var(--sec)">Ernst & Young SAS<div class="subrow">Linktic S.A.S</div></td><td class="tdates">18 jul 2026 <span style="color:var(--brand)">→</span> 14 ago 2026</td><td class="font-mono tval" style="text-align:right;font-weight:400">$4.845.680.000</td><td><div class="cumpl"><div class="cbar"><i style="--w:85%;background:#1f8f66"></i></div><span class="cpc font-mono" style="color:#17694b">85%</span></div></td><td style="text-align:right"><button class="kebab" aria-haspopup="menu" aria-expanded="false" aria-label="Acciones del proyecto"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button></td></tr>
           </tbody>
         </table>
         </div>
@@ -98,6 +110,13 @@
     </div>
   </div>
 </div>
+<!-- menú de acciones (compartido por todas las filas) -->
+<div class="amenu" id="amenu" role="menu" aria-label="Acciones del proyecto">
+  <button type="button" role="menuitem">Editar</button>
+  <button type="button" role="menuitem">Clonar</button>
+  <button type="button" role="menuitem" class="danger">Eliminar</button>
+</div>
+
 <!-- Modal Nuevo proyecto (overlay in-place) -->
 <div id="npModal" style="display:none">
   <div class="backdrop" data-close></div>
@@ -137,6 +156,31 @@
     window.addEventListener('resize', upd);
     upd();
   });
+
+  // menú de acciones por fila (kebab)
+  const amenu = document.getElementById('amenu');
+  let kebabAbierto = null;
+  const cerrarMenu = () => {
+    amenu.classList.remove('open');
+    if (kebabAbierto) { kebabAbierto.setAttribute('aria-expanded','false'); kebabAbierto = null; }
+  };
+  document.querySelectorAll('.kebab').forEach(k => k.addEventListener('click', e => {
+    e.stopPropagation();
+    if (kebabAbierto === k) { cerrarMenu(); return; }
+    cerrarMenu();
+    kebabAbierto = k; k.setAttribute('aria-expanded','true');
+    amenu.classList.add('open');
+    const r = k.getBoundingClientRect(), mw = amenu.offsetWidth, mh = amenu.offsetHeight;
+    let top = r.bottom + 6;
+    if (top + mh > innerHeight - 8) top = r.top - mh - 6;
+    amenu.style.top = top + 'px';
+    amenu.style.left = Math.max(8, Math.min(r.right - mw, innerWidth - mw - 8)) + 'px';
+  }));
+  amenu.addEventListener('click', e => e.stopPropagation());
+  amenu.querySelectorAll('button').forEach(b => b.addEventListener('click', cerrarMenu));
+  document.addEventListener('click', cerrarMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarMenu(); });
+  window.addEventListener('scroll', cerrarMenu, true);
 
   // cada fila de la tabla → detalle del proyecto
   document.querySelectorAll('.rtable tbody tr').forEach(tr => {
