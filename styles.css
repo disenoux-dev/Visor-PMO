@@ -27,6 +27,11 @@
   --alerta-500:#b87a00;   /* base alerta (≥3:1 en fondos claros) */
   --alerta-100:#f7ecd4;   /* fondo chip alerta */
 
+  /* -- Lima: 2.ª serie de datos en gráficas (no es color de estado) -- */
+  --lima-700:#3f7a1c;     /* líneas finas y texto 5.2:1 /blanco */
+  --lima-500:#6eb437;     /* base: rellenos de barra, dona y leyenda */
+  --lima-100:#e6f3da;     /* fondo suave */
+
   /* -- Texto -- */
   --text:#0d1824;         /* = --ink-900 */
   --sec:#39465e;          /* secundario 9.50:1 */
@@ -293,3 +298,8 @@ body .ctl .pt b, body .gantt-axis span, body .gbar, body .mchip .v{
 .pbtn:disabled{opacity:.35;cursor:not-allowed}
 .empty{padding:36px;text-align:center;color:var(--muted);font-size:13px}
 .empty .btn{margin-top:14px}
+
+/* ---- accesibilidad: foco visible (teclado) ---- */
+a:focus-visible,button:focus-visible,[role="tab"]:focus-visible,[tabindex]:focus-visible,
+input:focus-visible,select:focus-visible,summary:focus-visible{
+  outline:2px solid var(--azul-600);outline-offset:2px;border-radius:6px}
