@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 540">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #e69e45;
+      }
+
+      .cls-3 {
+        font-size: 10.3px;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #000100;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        font-family: NunitoSans-12ptExtraLight, 'Nunito Sans';
+        font-variation-settings: 'wght' 200, 'wdth' 100, 'opsz' 12, 'YTLC' 500;
+        font-weight: 200;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        fill: #1c2c4d;
+      }
+
+      .cls-8 {
+        letter-spacing: 0em;
+      }
+
+      .cls-9 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-10 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4 {
+        font-size: 15.45px;
+      }
+
+      .cls-5 {
+        fill: #333;
+        font-size: 12.15px;
+      }
+
+      .cls-11 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" width="960" height="540"/>
+    </clipPath>
+  </defs>
+  <g class="cls-11">
+    <text class="cls-4" transform="translate(381.15 134.29)"><tspan x="0" y="0">Micrositios y correos masivos:</tspan></text>
+    <text class="cls-3" transform="translate(306.93 159.01)"><tspan x="0" y="0" xml:space="preserve">Color usado en:  header y footer de los micrositos | Footer de correos masivos.</tspan></text>
+    <rect class="cls-2" y="528.78" width="960" height="11.22"/>
+    <rect class="cls-7" x="336.62" y="227.23" width="159.94" height="156.22"/>
+    <text class="cls-5" transform="translate(538.94 295.79)"><tspan class="cls-9" x="0" y="0">H</tspan><tspan class="cls-6" x="8.84" y="0">E</tspan></text>
+    <text class="cls-5" transform="translate(555.01 295.79)"><tspan x="0" y="0">X</tspan></text>
+    <text class="cls-5" transform="translate(562.87 295.79)"><tspan class="cls-10" x="0" y="0" xml:space="preserve"> 00255</tspan><tspan x="37.77" y="0">2</tspan></text>
+    <text class="cls-5" transform="translate(538.94 311.32)"><tspan class="cls-10" x="0" y="0">R</tspan><tspan class="cls-9" x="7.67" y="0">G</tspan><tspan x="16.1" y="0">B</tspan></text>
+    <text class="cls-5" transform="translate(563.71 311.32)"><tspan class="cls-10" x="0" y="0" xml:space="preserve"> 31 44</tspan><tspan class="cls-8" x="33.47" y="0"> </tspan></text>
+    <text class="cls-5" transform="translate(599.81 311.32)"><tspan x="0" y="0">75</tspan></text>
+  </g>
+</svg>

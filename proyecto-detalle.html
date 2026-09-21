@@ -23,7 +23,7 @@
   .metastrip{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:12px;font-size:13px;color:var(--sec);font-weight:500}
   .metastrip .m{display:inline-flex;align-items:center;gap:6px}
   .metastrip .m svg{color:var(--muted)}
-  .metastrip .sep{color:#c3cbdb}
+  .metastrip .sep{color:var(--muted)}
   .tallachip{background:rgba(57,70,94,.1);color:var(--sec);font-size:11px;font-weight:500;padding:3px 9px;border-radius:6px}
 
   /* banda de métricas principales */
@@ -107,15 +107,137 @@
   details.det[open] .gbar{animation:grow 1s var(--ease) both}
   @keyframes grow{from{width:0}to{width:var(--w)}}
   .today{position:absolute;top:-8px;bottom:-8px;width:2px;background:var(--brand);z-index:3;border-radius:2px}
-  .today.lead::before{content:"Hoy";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;
+  .today.lead::before{content:"Hoy";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:500;
     color:var(--brand);background:#fff;padding:0 4px;border-radius:4px}
   .today::after{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:999px;background:var(--brand)}
-  .tabbar{display:flex;flex-wrap:wrap;gap:5px;padding:6px;border-radius:6px}
-  .tab{flex:1;text-align:center;white-space:nowrap;padding:8px 15px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--sec);cursor:pointer}
-  .tab.active{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+  /* nivel 1 · módulos del proyecto: pestañas subrayadas a lo ancho de la página */
+  .tabbar{display:flex;flex-wrap:wrap;gap:2px;margin-top:30px;border-bottom:1px solid rgba(13,24,36,.12)}
+  .tab{flex:none;white-space:nowrap;padding:12px 16px;border-radius:6px 6px 0 0;font-size:13.5px;font-weight:500;color:var(--sec);cursor:pointer;
+    border:0;background:transparent;font-family:inherit;transition:color .2s var(--ease),background .2s var(--ease)}
+  .tab:hover{color:var(--text);background:rgba(54,102,171,.06)}
+  .tab.active{color:var(--azul-700);box-shadow:inset 0 -2px 0 var(--azul-700)}
+
+  /* mini banner del dashboard ejecutivo: reutiliza details.det; las secciones viven dentro, sin tarjeta propia */
+  details.dash{margin-top:20px}
+  details.dash h2.det-title{margin:0}
+  details.dash .dsec>.gcard{background:none;border:0;box-shadow:none;padding:0!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+
+  /* ══════════ DASHBOARD EJECUTIVO (tab) ══════════ */
+  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+  .skiplink{position:absolute;left:-9999px;top:12px;z-index:120;background:var(--cobalto-800);color:#fff;
+    padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none}
+  .skiplink:focus{left:12px}
+
+  /* nivel 2 · secciones del panel (sub-pestañas): chips claros, nunca el relleno sólido del nivel 1 */
+  .secnav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+    padding:12px 0 14px;margin-bottom:20px;border-top:1px solid rgba(13,24,36,.08);border-bottom:1px solid rgba(13,24,36,.08)}
+  .secnav .corte{margin-left:auto}
+  .secnav .snlbl{margin-right:6px}
+  .secnav button{font:inherit;font-size:12px;font-weight:500;color:var(--sec);padding:5px 12px;border-radius:999px;cursor:pointer;
+    border:1px solid rgba(13,24,36,.10);background:rgba(255,255,255,.55);transition:all .2s var(--ease)}
+  .secnav button:hover{background:#fff;color:var(--text)}
+  .secnav button.active{color:var(--azul-700);background:var(--azul-100);border-color:rgba(54,102,171,.35)}
+
+  .dsec-h{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:14px}
+  .dsec-h h2{font-size:17px;font-weight:500;letter-spacing:-.01em}
+
+  /* grillas y tiles de indicadores */
+  .glbl{display:block;margin:22px 0 10px}
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .quad{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .stile{position:relative;background:#fff;border:1px solid rgba(13,24,36,.08);border-radius:10px;padding:16px 18px;
+    box-shadow:0 6px 18px -8px rgba(13,24,36,.16);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+  .stile:hover{transform:translateY(-3px);box-shadow:0 14px 30px -12px rgba(46,88,147,.28)}
+  .st-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .stile .slbl{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .stile .sv{display:block;font-family:var(--font-mono);font-weight:400;font-size:26px;letter-spacing:-.02em;
+    margin-top:8px;font-variant-numeric:tabular-nums}
+  .stile .sv.sm{font-size:18px}
+  .stile .ssub{font-size:11px;color:var(--muted);margin-top:5px}
+  .stile.hl{background:linear-gradient(160deg,rgba(224,233,245,.95),rgba(224,233,245,.55));border-color:rgba(54,102,171,.28)}
+
+  /* flujo operativo con flechas */
+  .flow{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr;gap:8px;align-items:center}
+  .farr{display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+  /* sub-bloques numerados */
+  .bhead{display:flex;align-items:center;gap:12px;margin:26px 0 12px}
+  .bnum{width:28px;height:28px;flex:none;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    background:var(--azul-100);color:var(--azul-700);font-family:var(--font-mono);font-size:12px}
+  .bhead h3{font-size:14px;font-weight:500}
+  .bhead .bs{font-size:12px;color:var(--muted);margin-top:1px}
+
+  /* narrativa + notas */
+  .callout{border-left:3px solid var(--azul-600);background:rgba(54,102,171,.08);border-radius:0 8px 8px 0;
+    padding:12px 16px;font-size:12.5px;color:var(--sec);line-height:1.55;margin-top:16px}
+  .fnote{font-size:11px;color:var(--muted);margin-top:14px}
+
+  /* charts */
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:6px;font-weight:500}
+  .vbar{transform:scaleY(0);transform-origin:bottom;transform-box:fill-box;transition:transform .9s var(--ease)}
+  .drawn .vbar{transform:scaleY(1)}
+  .serieschk{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;font-weight:500;color:var(--sec)}
+  .serieschk label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .serieschk input{accent-color:var(--azul-600);width:14px;height:14px}
+  .serieschk i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+  /* evaluación de costos: paneles comparados */
+  .evpanel{background:#fff;border:1px solid rgba(13,24,36,.08);border-radius:10px;padding:18px 20px;
+    box-shadow:0 6px 18px -8px rgba(13,24,36,.16)}
+  .evhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .evhead b{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+  .evhead span{font-size:11px;color:var(--muted)}
+  /* bento: REAL como pieza principal (con su cumplimiento), PPTO y FCST de referencia, variaciones en lista */
+  .bento{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin-top:14px}
+  .bt{background:var(--niebla-50);border:1px solid rgba(13,24,36,.05);border-radius:8px;padding:12px 14px;min-width:0}
+  .bt .k{display:block;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .bt .v{display:block;font-family:var(--font-mono);font-size:14px;margin-top:5px;white-space:nowrap}
+  .bt .s{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+  .bt-hero{grid-row:span 2;display:flex;flex-direction:column;
+    background:linear-gradient(160deg,rgba(224,233,245,.95),rgba(224,233,245,.55));border-color:rgba(54,102,171,.28)}
+  .bt-hero .v{font-size:19px;letter-spacing:-.02em;color:var(--azul-700)}
+  .cbar{margin-top:auto;padding-top:14px}
+  .cbar+.cbar{margin-top:0;padding-top:10px}
+  .cbl{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:11px;font-weight:500;color:var(--sec)}
+  .cbl b{font-family:var(--font-mono);font-weight:400;font-size:13px;color:var(--text)}
+  .cbar .miniprog{margin-top:6px;background:rgba(54,102,171,.16)}
+  .bt-var{grid-column:1/-1;padding-bottom:4px}
+  .vrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(13,24,36,.07);font-size:12px}
+  .bt-var .k+.vrow{margin-top:8px}
+  .vrow .vl{font-weight:500;color:var(--sec)}
+  .vrow .va{margin-left:auto;font-family:var(--font-mono);white-space:nowrap}
+  .vrow .vp{flex:none;width:62px;text-align:center;font-family:var(--font-mono);font-size:11px;padding:3px 0;border-radius:5px;
+    color:var(--danger-700);background:rgba(210,67,78,.10)}
+
+  /* equipo: barras horizontales + dona */
+  .hrow{display:flex;align-items:center;gap:12px;margin-top:11px}
+  .hrow .hl2{width:150px;flex:none;font-size:12px;font-weight:500;color:var(--sec);text-align:right}
+  .htrack{flex:1;height:20px;border-radius:5px;background:rgba(13,24,36,.05);overflow:hidden}
+  .hfill{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--azul-700),var(--azul-500));
+    width:0;transition:width 1.1s var(--ease)}
+  .drawn .hfill{width:var(--w)}
+  .hval{width:96px;flex:none;font-family:var(--font-mono);font-size:12px}
+  .donutwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%}
+
+  @media (prefers-reduced-motion:reduce){
+    .vbar{transform:none;transition:none}
+    .hfill,.drawn .hfill{transition:none;width:var(--w)}
+    .stile:hover,.stile{transition:none;transform:none}
+  }
+  @media (max-width:1180px){.g2,.cgrid{grid-template-columns:1fr}}
+  @media (max-width:560px){.bento{grid-template-columns:1fr}}
+  @media (max-width:900px){
+    .trio,.quad{grid-template-columns:1fr 1fr}
+    .flow{grid-template-columns:1fr}
+    .farr{transform:rotate(90deg);padding:2px 0}
+  }
 </style>
 </head>
 <body>
+<a class="skiplink" href="#main">Saltar al contenido principal</a>
 <!-- pantalla de carga -->
 <div class="loader" id="loader" role="status" aria-label="Cargando Visor PMO">
   <svg class="liso" viewBox="0 0 87.95 100.91" aria-hidden="true">
@@ -162,7 +284,7 @@
       <div class="searchpill"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Buscar proyecto...</div>
       <div class="userchip"><div style="text-align:right;line-height:1.2"><div style="font-size:12px;font-weight:500">Edwin Romero</div><div style="font-size:10px;color:var(--muted)">Visitante</div></div><span class="ava">ER</span></div>
     </div>
-    <div class="page">
+    <main class="page" id="main">
       <a class="navitem" href="proyectos-list.html" style="padding:0;color:var(--sec);font-size:13px;font-weight:500;margin-bottom:12px;display:inline-flex">← Volver a proyectos</a>
 
       <!-- ══════════ PANTALLA 1 · DATOS PRINCIPALES ══════════ -->
@@ -173,9 +295,9 @@
             <h1>Proyecto Balú</h1>
             <div class="metastrip">
               <span class="m"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> Evelio Zambrano Rueda</span>
-              <span class="sep">·</span>
+              <span class="sep" aria-hidden="true">·</span>
               <span class="m"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v16M17 21V9h2a2 2 0 0 1 2 2v10M7 8h4M7 12h4M7 16h4"/></svg> Positiva Cía. de Seguros SA</span>
-              <span class="sep">·</span>
+              <span class="sep" aria-hidden="true">·</span>
               <span class="m">Linktic S.A.S</span>
               <span class="tallachip">Talla XXL</span>
             </div>
@@ -275,11 +397,350 @@
       </details>
 
       <!-- tabs -->
-      <div class="gcard tabbar reveal d4" style="margin:16px 0">
-        <span class="tab">Dashboard</span><span class="tab active">Tareas</span><span class="tab">Cronograma</span><span class="tab">Hitos</span><span class="tab">Azure</span><span class="tab">Riesgos</span><span class="tab">ANS / KPIs</span><span class="tab">Personal</span><span class="tab">Documentos</span>
+      <div class="tabbar reveal d4" role="tablist" aria-label="Módulos del proyecto">
+        <button class="tab active" role="tab" id="tab-dashboard" aria-selected="true" aria-controls="panel-dashboard">Dashboard</button>
+        <button class="tab" role="tab" id="tab-tareas" aria-selected="false" aria-controls="panel-tareas" tabindex="-1">Tareas</button>
+        <button class="tab" role="tab" id="tab-cronograma" aria-selected="false" aria-controls="panel-cronograma" tabindex="-1">Cronograma</button>
+        <button class="tab" role="tab" id="tab-hitos" aria-selected="false" aria-controls="panel-hitos" tabindex="-1">Hitos</button>
+        <button class="tab" role="tab" id="tab-azure" aria-selected="false" aria-controls="panel-azure" tabindex="-1">Azure</button>
+        <button class="tab" role="tab" id="tab-riesgos" aria-selected="false" aria-controls="panel-riesgos" tabindex="-1">Riesgos</button>
+        <button class="tab" role="tab" id="tab-ans" aria-selected="false" aria-controls="panel-ans" tabindex="-1">ANS / KPIs</button>
+        <button class="tab" role="tab" id="tab-personal" aria-selected="false" aria-controls="panel-personal" tabindex="-1">Personal</button>
+        <button class="tab" role="tab" id="tab-documentos" aria-selected="false" aria-controls="panel-documentos" tabindex="-1">Documentos</button>
       </div>
 
-      <!-- tareas -->
+      <!-- ══════════ PANEL · DASHBOARD EJECUTIVO ══════════ -->
+      <div id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" tabindex="0">
+
+        <!-- mini banner: el botón despliega las secciones del dashboard ejecutivo -->
+        <details class="det dash gcard reveal d4">
+        <summary>
+          <div class="det-left">
+            <span class="det-ico"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+            <div><h2 class="det-title">Dashboard ejecutivo</h2><div class="det-sub">Indicadores por frente de gestión · 6 secciones</div></div>
+          </div>
+          <span class="det-toggle"><span class="txt-closed">Ver indicadores</span><span class="txt-open">Ocultar</span><span class="chev"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></span>
+        </summary>
+        <div class="det-body">
+
+        <!-- secciones del dashboard (sub-pestañas) -->
+        <div class="secnav" role="tablist" aria-label="Secciones del dashboard ejecutivo">
+          <span class="lbl snlbl" aria-hidden="true">Sección</span>
+          <button type="button" role="tab" id="stab-desarrollo" aria-controls="sec-desarrollo" aria-selected="true" class="active">Desarrollo</button>
+          <button type="button" role="tab" id="stab-requerimientos" aria-controls="sec-requerimientos" aria-selected="false" tabindex="-1">Requerimientos</button>
+          <button type="button" role="tab" id="stab-evolucion" aria-controls="sec-evolucion" aria-selected="false" tabindex="-1">Evolución</button>
+          <button type="button" role="tab" id="stab-facturacion" aria-controls="sec-facturacion" aria-selected="false" tabindex="-1">Facturación</button>
+          <button type="button" role="tab" id="stab-costos" aria-controls="sec-costos" aria-selected="false" tabindex="-1">Costos</button>
+          <button type="button" role="tab" id="stab-equipo" aria-controls="sec-equipo" aria-selected="false" tabindex="-1">Equipo</button>
+          <span class="gp gp-sm gp-cierre corte">Datos acumulados al 31/08/2026</span>
+        </div>
+
+        <!-- ─── 1 · DESARROLLO Y CERTIFICACIÓN ─── -->
+        <section class="dsec" id="sec-desarrollo" role="tabpanel" aria-labelledby="stab-desarrollo" tabindex="0">
+          <div class="gcard finpanel reveal d1" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-des">Estatus de desarrollo y certificación</h2>
+              <p class="subt">Funcionalidades planeadas vs. reales al corte</p></div>
+            </div>
+            <div class="trio">
+              <div class="stile"><span class="slbl">Entregadas · planeadas</span><span class="sv cu" data-val="143" data-int="1">0</span></div>
+              <div class="stile"><span class="slbl">Entregadas · reales</span><span class="sv cu" data-val="110" data-int="1">0</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Cumplimiento entregas</span><span class="gp gp-sm gp-media">Atención</span></div><span class="sv cu" data-val="77" data-int="1" data-suffix="%" style="color:var(--alerta-700)">0%</span></div>
+            </div>
+            <div class="trio" style="margin-top:14px">
+              <div class="stile"><span class="slbl">Certificadas · planeadas</span><span class="sv cu" data-val="120" data-int="1">0</span></div>
+              <div class="stile"><span class="slbl">Certificadas · reales</span><span class="sv cu" data-val="80" data-int="1">0</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Cumplimiento certificación</span><span class="gp gp-sm gp-atr">En riesgo</span></div><span class="sv cu" data-val="67" data-int="1" data-suffix="%" style="color:var(--danger-700)">0%</span></div>
+            </div>
+            <div class="trio" style="margin-top:14px">
+              <div class="stile"><span class="slbl">Facturadas · planeadas</span><span class="sv cu" data-val="120" data-int="1">0</span></div>
+              <div class="stile"><span class="slbl">Facturadas · reales</span><span class="sv cu" data-val="40" data-int="1">0</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Cumplimiento facturación</span><span class="gp gp-sm gp-atr">En riesgo</span></div><span class="sv cu" data-val="33" data-int="1" data-suffix="%" style="color:var(--danger-700)">0%</span></div>
+            </div>
+            <div class="trio" style="margin-top:14px">
+              <div class="stile hl"><span class="slbl">Funcionalidades totales</span><span class="sv cu" data-val="466" data-int="1">0</span></div>
+              <div class="stile hl"><span class="slbl">Certificadas reales</span><span class="sv cu" data-val="80" data-int="1">0</span></div>
+              <div class="stile hl"><div class="st-top"><span class="slbl">Avance de implementación</span><span class="gp gp-sm gp-cierre">Avance global</span></div><span class="sv cu" data-val="17" data-int="1" data-suffix="%" style="color:var(--azul-700)">0%</span></div>
+            </div>
+            <p class="fnote">* Cada indicador se conecta con la hoja madre de seguimiento; clic para consultar la información fuente.</p>
+          </div>
+        </section>
+
+        <!-- ─── 2 · REQUERIMIENTOS ─── -->
+        <section class="dsec" id="sec-requerimientos" role="tabpanel" aria-labelledby="stab-requerimientos" tabindex="0" hidden>
+          <div class="gcard finpanel reveal" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-req">Requerimientos</h2>
+              <p class="subt">Seguimiento de requerimientos planeados, aprobados y su conversión hacia entregas y certificaciones</p></div>
+            </div>
+            <span class="glbl lbl" style="margin-top:0">Planeación y aprobación</span>
+            <div class="trio">
+              <div class="stile"><span class="slbl">Req. planeadas</span><span class="sv cu" data-val="245" data-int="1">0</span></div>
+              <div class="stile"><span class="slbl">Req. real / aprobado total</span><span class="sv cu" data-val="156" data-int="1">0</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Cumplimiento</span><span class="gp gp-sm gp-atr">En riesgo</span></div><span class="sv cu" data-val="64" data-int="1" data-suffix="%" style="color:var(--danger-700)">0%</span></div>
+            </div>
+            <span class="glbl lbl">Flujo operativo</span>
+            <div class="flow">
+              <div class="stile"><span class="slbl">Aprobados banco</span><span class="sv cu" data-val="156" data-int="1">0</span></div>
+              <span class="farr" aria-hidden="true"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+              <div class="stile"><span class="slbl">Entregados fábrica</span><span class="sv cu" data-val="110" data-int="1">0</span></div>
+              <span class="farr" aria-hidden="true"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+              <div class="stile"><span class="slbl">Certificados</span><span class="sv cu" data-val="80" data-int="1">0</span></div>
+            </div>
+            <div class="g2" style="margin-top:22px">
+              <div>
+                <span class="glbl lbl" style="margin-top:0">Brechas</span>
+                <div class="duo">
+                  <div class="stile"><span class="slbl">Brecha req. → entrega</span><span class="sv cu" data-val="46" data-int="1">0</span><span class="ssub">pendientes de entrega</span></div>
+                  <div class="stile"><span class="slbl">Brecha entrega → cert.</span><span class="sv cu" data-val="30" data-int="1">0</span><span class="ssub">pendientes de certificar</span></div>
+                </div>
+              </div>
+              <div>
+                <span class="glbl lbl" style="margin-top:0">Conversión</span>
+                <div class="duo">
+                  <div class="stile"><div class="st-top"><span class="slbl">Conversión req. → entrega</span><span class="gp gp-sm gp-media">Atención</span></div><span class="sv cu" data-val="71" data-int="1" data-suffix="%" style="color:var(--alerta-700)">0%</span></div>
+                  <div class="stile"><div class="st-top"><span class="slbl">Conversión req. → cert.</span><span class="gp gp-sm gp-atr">En riesgo</span></div><span class="sv cu" data-val="51" data-int="1" data-suffix="%" style="color:var(--danger-700)">0%</span></div>
+                </div>
+              </div>
+            </div>
+            <p class="fnote">* Clic sobre cualquier tarjeta para consultar el detalle de la hoja de requerimientos.</p>
+          </div>
+        </section>
+
+        <!-- ─── 3 · EVOLUCIÓN ─── -->
+        <section class="dsec" id="sec-evolucion" role="tabpanel" aria-labelledby="stab-evolucion" tabindex="0" hidden>
+          <div class="gcard finpanel reveal" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-evo">Evolución de desarrollo y certificación</h2>
+              <p class="subt">Seguimiento mensual y acumulado de planeado vs. real</p></div>
+            </div>
+            <div class="cgrid">
+              <div class="stile" style="padding:18px 20px">
+                <div class="st-top"><p style="font-size:13.5px;font-weight:500">Entregas · plan vs. real acumulado</p>
+                  <div class="legend" style="margin-top:0"><span><i style="background:#2e5893"></i>Plan</span><span><i style="background:#d2434e"></i>Real</span></div></div>
+                <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:150px;overflow:visible;margin-top:10px" role="img" aria-label="Entregas acumuladas: el plan crece de 40 en enero a 232 en diciembre; el real alcanza 110 en julio y se estanca allí">
+                  <defs><linearGradient id="ea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e5893" stop-opacity=".2"/><stop offset="1" stop-color="#2e5893" stop-opacity="0"/></linearGradient></defs>
+                  <path class="carea" d="M0 123.6 L36.4 112.4 L72.7 101.2 L109.1 90 L145.5 81.6 L181.8 78.8 L218.2 76 L254.5 65.9 L290.9 43.5 L327.3 32.3 L363.6 23.4 L400 16.1 L400 150 L0 150 Z" fill="url(#ea)"/>
+                  <path class="cline" pathLength="1" d="M0 123.6 L36.4 112.4 L72.7 101.2 L109.1 90 L145.5 81.6 L181.8 78.8 L218.2 76 L254.5 65.9 L290.9 43.5 L327.3 32.3 L363.6 23.4 L400 16.1" stroke="#2e5893"/>
+                  <path class="cline" pathLength="1" d="M0 123.6 L36.4 123.6 L72.7 112.4 L109.1 101.2 L145.5 90 L181.8 90 L218.2 84.4 L254.5 84.4 L290.9 84.4 L327.3 84.4 L363.6 84.4 L400 84.4" stroke="#d2434e" style="stroke-width:2.2"/>
+                </svg>
+                <div class="axis" aria-hidden="true"><span>Ene</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+              </div>
+              <div class="stile" style="padding:18px 20px">
+                <div class="st-top"><p style="font-size:13.5px;font-weight:500">Certificaciones · plan vs. real acumulado</p>
+                  <div class="legend" style="margin-top:0"><span><i style="background:#2e5893"></i>Plan</span><span><i style="background:#d2434e"></i>Real</span></div></div>
+                <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:150px;overflow:visible;margin-top:10px" role="img" aria-label="Certificaciones acumuladas: el plan crece de 0 en febrero a 203 en diciembre; el real llega a 80 en agosto y se estanca allí">
+                  <defs><linearGradient id="ca" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e5893" stop-opacity=".2"/><stop offset="1" stop-color="#2e5893" stop-opacity="0"/></linearGradient></defs>
+                  <path class="carea" d="M0 146 L36.4 146 L72.7 123.6 L109.1 112.4 L145.5 101.2 L181.8 90 L218.2 84.4 L254.5 78.8 L290.9 76 L327.3 65.9 L363.6 43.5 L400 32.3 L400 150 L0 150 Z" fill="url(#ca)"/>
+                  <path class="cline" pathLength="1" d="M0 146 L36.4 146 L72.7 123.6 L109.1 112.4 L145.5 101.2 L181.8 90 L218.2 84.4 L254.5 78.8 L290.9 76 L327.3 65.9 L363.6 43.5 L400 32.3" stroke="#2e5893"/>
+                  <path class="cline" pathLength="1" d="M0 146 L36.4 146 L72.7 146 L109.1 146 L145.5 146 L181.8 123.6 L218.2 123.6 L254.5 101.2 L290.9 101.2 L327.3 101.2 L363.6 101.2 L400 101.2" stroke="#d2434e" style="stroke-width:2.2"/>
+                </svg>
+                <div class="axis" aria-hidden="true"><span>Ene</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+              </div>
+              <div class="stile" style="padding:18px 20px">
+                <div class="st-top"><p style="font-size:13.5px;font-weight:500">Entregas mensuales · plan vs. real</p>
+                  <div class="legend" style="margin-top:0"><span><i style="background:#2e5893"></i>Plan</span><span><i style="background:#d2434e"></i>Real</span></div></div>
+                <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:150px;margin-top:10px" role="img" aria-label="Entregas por mes: producción real solo hasta julio; sin entregas reales de agosto en adelante">
+                  <g fill="#2e5893">
+                    <rect class="vbar" x="5" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="38.3" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="71.7" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="105" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="138.3" y="96.2" width="10" height="48.8" rx="2"/><rect class="vbar" x="171.7" y="128.7" width="10" height="16.3" rx="2"/><rect class="vbar" x="205" y="128.7" width="10" height="16.3" rx="2"/><rect class="vbar" x="238.3" y="86.5" width="10" height="58.5" rx="2"/><rect class="vbar" x="271.7" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="305" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="338.3" y="93" width="10" height="52" rx="2"/><rect class="vbar" x="371.7" y="102.7" width="10" height="42.3" rx="2"/>
+                  </g>
+                  <g fill="#d2434e">
+                    <rect class="vbar" x="16" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="82.7" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="116" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="149.3" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="216" y="112.5" width="10" height="32.5" rx="2"/>
+                  </g>
+                </svg>
+                <div class="axis" aria-hidden="true"><span>Ene</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+              </div>
+              <div class="stile" style="padding:18px 20px">
+                <div class="st-top"><p style="font-size:13.5px;font-weight:500">Certificaciones mensuales · plan vs. real</p>
+                  <div class="legend" style="margin-top:0"><span><i style="background:#2e5893"></i>Plan</span><span><i style="background:#d2434e"></i>Real</span></div></div>
+                <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:150px;margin-top:10px" role="img" aria-label="Certificaciones por mes: reales concentradas en junio y agosto, 40 cada una; el resto de meses sin certificaciones reales">
+                  <g fill="#2e5893">
+                    <rect class="vbar" x="71.7" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="105" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="138.3" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="171.7" y="80" width="10" height="65" rx="2"/><rect class="vbar" x="205" y="112.5" width="10" height="32.5" rx="2"/><rect class="vbar" x="238.3" y="112.5" width="10" height="32.5" rx="2"/><rect class="vbar" x="271.7" y="128.7" width="10" height="16.3" rx="2"/><rect class="vbar" x="305" y="86.5" width="10" height="58.5" rx="2"/><rect class="vbar" x="338.3" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="371.7" y="80" width="10" height="65" rx="2"/>
+                  </g>
+                  <g fill="#d2434e">
+                    <rect class="vbar" x="182.7" y="15" width="10" height="130" rx="2"/><rect class="vbar" x="249.3" y="15" width="10" height="130" rx="2"/>
+                  </g>
+                </svg>
+                <div class="axis" aria-hidden="true"><span>Ene</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── 4 · FACTURACIÓN ─── -->
+        <section class="dsec" id="sec-facturacion" role="tabpanel" aria-labelledby="stab-facturacion" tabindex="0" hidden>
+          <div class="gcard finpanel reveal" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-fac">Estatus de facturación</h2>
+              <p class="subt">Lectura financiera de la facturación de implementación · montos en COP</p></div>
+            </div>
+            <div class="trio">
+              <div class="stile"><span class="slbl">Facturación total</span><span class="sv sm">$ 25.644.100.842</span></div>
+              <div class="stile"><span class="slbl">Facturación pendiente</span><span class="sv sm">$ 21.516.831.393</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Avance</span><span class="gp gp-sm gp-cierre">Implementación</span></div><span class="sv" style="color:var(--azul-700)">16,0%</span></div>
+            </div>
+            <div class="trio" style="margin-top:14px">
+              <div class="stile"><span class="slbl">Facturación planeada</span><span class="sv sm">$ 7.098.903.429</span><span class="ssub">acumulada al corte</span></div>
+              <div class="stile"><span class="slbl">Facturación real</span><span class="sv sm">$ 4.127.269.449</span><span class="ssub">acumulada al corte</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">Cumplimiento</span><span class="gp gp-sm gp-atr">En riesgo</span></div><span class="sv" style="color:var(--danger-700)">58,0%</span></div>
+            </div>
+
+            <div class="bhead"><span class="bnum" aria-hidden="true">01</span><div><h3>Composición del avance de facturación</h3><p class="bs">Cómo entrega y certificación explican el indicador de facturación de implementación</p></div></div>
+            <div class="trio">
+              <div class="stile"><span class="slbl">Componente entrega · peso 20%</span><span class="sv" style="color:var(--alerta-700)">11,8%</span><span class="ssub">Cumplimiento 76,9% · plan/real 143/110</span></div>
+              <div class="stile"><span class="slbl">Componente certificación · peso 80%</span><span class="sv" style="color:var(--danger-700)">4,3%</span><span class="ssub">Cumplimiento 34,8% · plan/real 120/40</span></div>
+              <div class="stile hl"><span class="slbl">Indicador facturación implementación</span><span class="sv" style="color:var(--azul-700)">16,0%</span><span class="ssub">Entrega + certificación</span></div>
+            </div>
+
+            <div class="bhead"><span class="bnum" aria-hidden="true">02</span><div><h3>Cumplimiento y brecha al corte</h3><p class="bs">Facturación planeada frente a facturación real</p></div></div>
+            <div class="quad">
+              <div class="stile"><span class="slbl">Planeado acumulado</span><span class="sv sm">$ 7.098.903.429</span></div>
+              <div class="stile"><span class="slbl">Real acumulado</span><span class="sv sm">$ 4.127.269.449</span></div>
+              <div class="stile"><span class="slbl">Rezago de facturación</span><span class="sv sm" style="color:var(--danger-700)">-$ 2.971.633.980</span></div>
+              <div class="stile hl"><span class="slbl">Cumplimiento</span><span class="sv" style="color:var(--danger-700)">58,0%</span>
+                <div class="miniprog" role="img" aria-label="Barra de cumplimiento al 58 por ciento" style="--w:58%"><i></i></div></div>
+            </div>
+            <p class="callout">A corte, la facturación real alcanza el 58,0% de lo planeado, con un rezago de $ 2.971.633.980. El indicador de facturación de implementación se ubica en 16,0% y el mayor rezago se concentra en certificación.</p>
+            <p class="fnote">* Fuente única de trazabilidad de esta sección: Hitos Fact. Clic sobre los indicadores para consultar la evidencia.</p>
+          </div>
+        </section>
+
+        <!-- ─── 5 · COSTOS ─── -->
+        <section class="dsec" id="sec-costos" role="tabpanel" aria-labelledby="stab-costos" tabindex="0" hidden>
+          <div class="gcard finpanel reveal" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-cos">Desempeño de costos</h2>
+              <p class="subt">PPTO, FCST y REAL desde Indicadores de Costo · tendencia, variaciones y eficiencia financiera</p></div>
+              <button class="btn btn-ghost" type="button" style="padding:9px 15px;font-size:12px;flex:none">Ver fuente completa <span aria-hidden="true">↗</span></button>
+            </div>
+
+            <div class="bhead" style="margin-top:0"><span class="bnum" aria-hidden="true">01</span><div><h3>Situación actual</h3><p class="bs">Línea base, forecast vigente y costo real</p></div></div>
+            <div class="trio">
+              <div class="stile"><span class="slbl">PPTO</span><span class="sv sm">$ 18.098.555.014</span><span class="ssub">Línea base</span></div>
+              <div class="stile"><span class="slbl">FCST</span><span class="sv sm">$ 10.471.184.817</span><span class="ssub">Proyección vigente</span></div>
+              <div class="stile"><span class="slbl">REAL</span><span class="sv sm">$ 3.682.952.117</span><span class="ssub">Ejecutado a corte</span></div>
+            </div>
+            <div class="trio" style="margin-top:14px">
+              <div class="stile"><div class="st-top"><span class="slbl">FCST vs. PPTO</span><span class="chip down">▼ Subejecución</span></div><span class="sv">-42,1%</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">REAL vs. PPTO</span><span class="chip down">▼ Subejecución</span></div><span class="sv">-79,7%</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">REAL vs. FCST</span><span class="chip down">▼ Subejecución</span></div><span class="sv">-64,8%</span></div>
+            </div>
+
+            <div class="bhead"><span class="bnum" aria-hidden="true">02</span><div><h3>Tendencia mensual de costos</h3><p class="bs">Febrero – agosto 2026 · PPTO vs. FCST vs. REAL · $ en millones</p></div></div>
+            <div class="stile" style="padding:18px 20px">
+              <fieldset class="serieschk" style="border:0;padding:0;margin:0 0 8px">
+                <legend class="lbl" style="float:left;margin-right:14px;padding-top:2px">Series visibles</legend>
+                <label><input type="checkbox" value="ppto" checked><i style="background:#2e5893" aria-hidden="true"></i>PPTO</label>
+                <label><input type="checkbox" value="fcst" checked><i style="background:var(--lima-700)" aria-hidden="true"></i>FCST</label>
+                <label><input type="checkbox" value="real" checked><i style="background:#d2434e" aria-hidden="true"></i>REAL</label>
+              </fieldset>
+              <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:170px;overflow:visible" role="img" aria-label="Tendencia mensual: PPTO estable cerca de 690 millones; FCST entre 365 y 435 millones con leve alza; REAL entre 285 y 365 millones, por debajo del forecast">
+                <path data-serie="ppto" class="cline" pathLength="1" d="M0 18 L66.7 8 L133.3 8 L200 8 L266.7 8 L333.3 8 L400 8" stroke="#2e5893"/>
+                <path data-serie="fcst" class="cline" pathLength="1" d="M0 72 L66.7 67 L133.3 73 L200 71 L266.7 71 L333.3 64 L400 59" stroke="var(--lima-700)"/>
+                <path data-serie="real" class="cline" pathLength="1" d="M0 89 L66.7 74 L133.3 79 L200 78 L266.7 73 L333.3 78 L400 75" stroke="#d2434e"/>
+              </svg>
+              <div class="axis" aria-hidden="true"><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span></div>
+            </div>
+
+            <div class="bhead"><span class="bnum" aria-hidden="true">03</span><div><h3>Evaluación de cumplimiento y variaciones</h3><p class="bs">Lectura completa del bloque 2 de Indicadores de Costo</p></div></div>
+            <div class="g2">
+              <div class="evpanel">
+                <div class="evhead"><b>Total proyecto</b><span>Escenario completo</span></div>
+                <div class="bento">
+                  <div class="bt bt-hero"><span class="k">REAL</span><span class="v">$ 3.682.952.117</span><span class="s">Ejecutado sobre el total</span>
+                    <div class="cbar"><div class="cbl"><span>Cumplimiento vs. PPTO</span><b>20,3%</b></div>
+                      <div class="miniprog" role="img" aria-label="Cumplimiento vs. PPTO: 20,3%" style="--w:20.3%"><i></i></div></div>
+                    <div class="cbar"><div class="cbl"><span>Cumplimiento vs. FCST</span><b>35,2%</b></div>
+                      <div class="miniprog" role="img" aria-label="Cumplimiento vs. FCST: 35,2%" style="--w:35.2%"><i></i></div></div>
+                  </div>
+                  <div class="bt"><span class="k">PPTO</span><span class="v">$ 18.098.555.014</span><span class="s">Línea base</span></div>
+                  <div class="bt"><span class="k">FCST</span><span class="v">$ 10.471.184.817</span><span class="s">Proyección vigente</span></div>
+                  <div class="bt bt-var"><span class="k">Variaciones</span>
+                    <div class="vrow"><span class="vl">FCST vs. PPTO</span><span class="va">-$ 7.627.370.197</span><span class="vp">-42,1%</span></div>
+                    <div class="vrow"><span class="vl">REAL vs. PPTO</span><span class="va">-$ 14.415.602.897</span><span class="vp">-79,7%</span></div>
+                    <div class="vrow"><span class="vl">REAL vs. FCST</span><span class="va">-$ 6.788.232.700</span><span class="vp">-64,8%</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="evpanel">
+                <div class="evhead"><b>Acumulado al corte</b><span>Lectura de seguimiento</span></div>
+                <div class="bento">
+                  <div class="bt bt-hero"><span class="k">REAL</span><span class="v">$ 3.682.952.117</span><span class="s">Ejecutado a corte</span>
+                    <div class="cbar"><div class="cbl"><span>Cumplimiento vs. PPTO</span><b>41,1%</b></div>
+                      <div class="miniprog" role="img" aria-label="Cumplimiento vs. PPTO: 41,1%" style="--w:41.1%"><i></i></div></div>
+                    <div class="cbar"><div class="cbl"><span>Cumplimiento vs. FCST</span><b>79,5%</b></div>
+                      <div class="miniprog" role="img" aria-label="Cumplimiento vs. FCST: 79,5%" style="--w:79.5%"><i></i></div></div>
+                  </div>
+                  <div class="bt"><span class="k">PPTO</span><span class="v">$ 8.955.222.605</span><span class="s">Línea base</span></div>
+                  <div class="bt"><span class="k">FCST</span><span class="v">$ 4.631.191.667</span><span class="s">Proyección vigente</span></div>
+                  <div class="bt bt-var"><span class="k">Variaciones</span>
+                    <div class="vrow"><span class="vl">FCST vs. PPTO</span><span class="va">-$ 4.324.030.938</span><span class="vp">-48,3%</span></div>
+                    <div class="vrow"><span class="vl">REAL vs. PPTO</span><span class="va">-$ 5.272.270.488</span><span class="vp">-58,9%</span></div>
+                    <div class="vrow"><span class="vl">REAL vs. FCST</span><span class="va">-$ 948.239.550</span><span class="vp">-20,5%</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bhead"><span class="bnum" aria-hidden="true">04</span><div><h3>Eficiencia del costo</h3><p class="bs">Indicadores de valor ganado al corte</p></div></div>
+            <div class="trio">
+              <div class="stile"><div class="st-top"><span class="slbl">CPI</span><span class="gp gp-sm gp-atr">Desfavorable</span></div><span class="sv" style="color:var(--danger-700)">0,52</span><span class="ssub">EV / AC</span></div>
+              <div class="stile"><div class="st-top"><span class="slbl">ICFF</span><span class="gp gp-sm gp-done">Favorable</span></div><span class="sv" style="color:var(--exito-700)">1,26</span><span class="ssub">Índice de costo-facturación</span></div>
+              <div class="stile"><span class="slbl">Componentes CPI</span><span class="sv sm">AC $ 3.682.952.117</span><span class="sv sm" style="margin-top:2px">EV $ 1.931.933.599</span></div>
+            </div>
+            <p class="callout">A corte, el costo real acumulado representa el 79,5% del FCST acumulado y el 41,1% del PPTO acumulado. El CPI de 0,52 evidencia una eficiencia de costo desfavorable frente al valor ganado.</p>
+          </div>
+        </section>
+
+        <!-- ─── 6 · EQUIPO ─── -->
+        <section class="dsec" id="sec-equipo" role="tabpanel" aria-labelledby="stab-equipo" tabindex="0" hidden>
+          <div class="gcard finpanel reveal" style="padding:24px">
+            <div class="dsec-h">
+              <div><h2 class="sec-h" id="h-eq">Conformación y costo del equipo</h2>
+              <p class="subt">Distribución del costo acumulado del equipo del proyecto</p></div>
+            </div>
+            <div class="trio">
+              <div class="stile"><span class="slbl">Costo acumulado equipo</span><span class="sv">$3,1 <small style="font-size:14px">mil MM</small></span><span class="ssub">97 HC acumulados</span></div>
+              <div class="stile"><span class="slbl">Costo directo implementación</span><span class="sv">$2,2 <small style="font-size:14px">mil MM</small></span><span class="ssub">71 HC asociados</span></div>
+              <div class="stile"><span class="slbl">Costo indirecto</span><span class="sv">$942 <small style="font-size:14px">M</small></span><span class="ssub">26 HC asociados</span></div>
+            </div>
+            <div class="g2" style="margin-top:16px">
+              <div class="stile" style="padding:18px 20px">
+                <p style="font-size:13.5px;font-weight:500">Costo acumulado por categoría</p>
+                <p class="ssub" style="margin-top:2px">Principales rubros del equipo</p>
+                <div role="img" aria-label="Barras por categoría: implementación directa 2,2 mil millones; indirectos 942 millones; requerimientos 650; QA 380; datos 280; infraestructura 180; diseño 60; soporte 30">
+                  <div class="hrow"><span class="hl2">Impl. directa</span><span class="htrack"><span class="hfill" style="--w:100%"></span></span><span class="hval">$2,2 mil MM</span></div>
+                  <div class="hrow"><span class="hl2">Indirectos</span><span class="htrack"><span class="hfill" style="--w:43%;background:linear-gradient(90deg,var(--lima-700),var(--lima-500))"></span></span><span class="hval">$942 M</span></div>
+                  <div class="hrow"><span class="hl2">Requerimientos</span><span class="htrack"><span class="hfill" style="--w:30%"></span></span><span class="hval">$650 M</span></div>
+                  <div class="hrow"><span class="hl2">QA</span><span class="htrack"><span class="hfill" style="--w:17%"></span></span><span class="hval">$380 M</span></div>
+                  <div class="hrow"><span class="hl2">Datos</span><span class="htrack"><span class="hfill" style="--w:13%"></span></span><span class="hval">$280 M</span></div>
+                  <div class="hrow"><span class="hl2">Infraestructura</span><span class="htrack"><span class="hfill" style="--w:8%"></span></span><span class="hval">$180 M</span></div>
+                  <div class="hrow"><span class="hl2">Diseño</span><span class="htrack"><span class="hfill" style="--w:3%"></span></span><span class="hval">$60 M</span></div>
+                  <div class="hrow"><span class="hl2">Soporte</span><span class="htrack"><span class="hfill" style="--w:2%"></span></span><span class="hval">$30 M</span></div>
+                </div>
+              </div>
+              <div class="stile" style="padding:18px 20px">
+                <p style="font-size:13.5px;font-weight:500">Composición del costo</p>
+                <p class="ssub" style="margin-top:2px">Implementación directa vs. costos indirectos</p>
+                <div class="donutwrap">
+                  <svg width="180" height="180" viewBox="0 0 120 120" role="img" aria-label="Dona de composición del costo: implementación directa 70 por ciento, indirectos 30 por ciento">
+                    <circle cx="60" cy="60" r="44" fill="none" stroke="var(--azul-600)" stroke-width="17" pathLength="100" stroke-dasharray="70 100" transform="rotate(-90 60 60)"/>
+                    <circle cx="60" cy="60" r="44" fill="none" stroke="var(--lima-500)" stroke-width="17" pathLength="100" stroke-dasharray="30 100" stroke-dashoffset="-70" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="58" text-anchor="middle" font-size="16" font-family="JetBrains Mono, monospace" fill="#0d1824">70%</text>
+                    <text x="60" y="72" text-anchor="middle" font-size="7.5" fill="#5c6a83">directa</text>
+                  </svg>
+                  <div class="legend"><span><i style="background:var(--azul-600)"></i>Implementación directa</span><span><i style="background:var(--lima-500)"></i>Indirectos</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        </div>
+        </details>
+      </div>
+
+      <!-- ══════════ PANEL · TAREAS ══════════ -->
+      <div id="panel-tareas" role="tabpanel" aria-labelledby="tab-tareas" tabindex="0" hidden>
       <div class="gcard reveal d4" style="padding:22px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="display:flex;align-items:center;gap:12px"><p style="font-size:14px;font-weight:500">Tareas</p>
@@ -296,7 +757,17 @@
           </tbody>
         </table>
       </div>
-    </div>
+      </div>
+
+      <!-- paneles pendientes de construcción -->
+      <div id="panel-cronograma" role="tabpanel" aria-labelledby="tab-cronograma" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Cronograma</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-hitos" role="tabpanel" aria-labelledby="tab-hitos" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Hitos</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-azure" role="tabpanel" aria-labelledby="tab-azure" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Azure</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-riesgos" role="tabpanel" aria-labelledby="tab-riesgos" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Riesgos</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-ans" role="tabpanel" aria-labelledby="tab-ans" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>ANS / KPIs</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-personal" role="tabpanel" aria-labelledby="tab-personal" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Personal</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+      <div id="panel-documentos" role="tabpanel" aria-labelledby="tab-documentos" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Documentos</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
+    </main>
   </div>
 </div>
 
@@ -328,12 +799,44 @@
       io.unobserve(c);
     });
   }, { threshold: .3 });
-  document.querySelectorAll('.dhero, .kgrid, .ktile, .mtile').forEach(el => io.observe(el));
+  document.querySelectorAll('.dhero, .kgrid, .ktile, .mtile, .dsec').forEach(el => io.observe(el));
 
-  // tabs (microinteracción)
-  document.querySelectorAll('.tabbar .tab').forEach(t => t.addEventListener('click', () => {
-    document.querySelectorAll('.tabbar .tab').forEach(x => x.classList.remove('active')); t.classList.add('active');
-  }));
+  // ---- tabs accesibles (tablist con teclado): módulos y secciones del dashboard ----
+  function initTabs(list) {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    function select(tab, focus) {
+      tabs.forEach(t => {
+        const sel = t === tab;
+        t.classList.toggle('active', sel);
+        t.setAttribute('aria-selected', String(sel));
+        t.tabIndex = sel ? 0 : -1;
+        const p = document.getElementById(t.getAttribute('aria-controls'));
+        if (p) p.hidden = !sel;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(t, false));
+      t.addEventListener('keydown', e => {
+        let j = null;
+        if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = tabs.length - 1;
+        if (j !== null) { e.preventDefault(); select(tabs[j], true); }
+      });
+    });
+  }
+  initTabs(document.querySelector('.tabbar'));
+  initTabs(document.querySelector('.secnav'));
+
+  // ---- series visibles del gráfico de costos ----
+  document.querySelectorAll('.serieschk input').forEach(chk => {
+    chk.addEventListener('change', () => {
+      document.querySelectorAll('[data-serie="' + chk.value + '"]')
+        .forEach(p => { p.style.display = chk.checked ? '' : 'none'; });
+    });
+  });
 </script>
 </body>
 </html>
