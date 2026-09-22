@@ -221,13 +221,16 @@ select.fld{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 
 /* ---- modal (overlay) ---- */
 .backdrop{position:fixed;inset:0;background:rgba(13,24,36,.42);backdrop-filter:blur(4px);z-index:40}
-.modalwrap{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:40px 20px;z-index:41}
-.modal{width:100%;max-width:580px;border-radius:10px;overflow:hidden;
+.modalwrap{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:40px 20px;z-index:41;overscroll-behavior:contain}
+/* con una modal abierta, la página de fondo no se desplaza */
+body.modal-open{overflow:hidden}
+.modal{width:100%;max-width:580px;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - 80px);
   background:linear-gradient(165deg,rgba(255,255,255,.96),rgba(255,255,255,.82));backdrop-filter:blur(22px);
   border:1px solid rgba(255,255,255,.85);box-shadow:0 40px 100px -30px rgba(46,88,147,.4),0 24px 60px rgba(13,24,36,.25)}
 .mhead{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid rgba(255,255,255,.7)}
 .xbtn{width:32px;height:32px;border-radius:6px;border:0;background:rgba(255,255,255,.6);color:var(--muted);cursor:pointer;font-size:14px}
-.mbody{padding:24px 28px;display:flex;flex-direction:column;gap:18px}
+.mbody{padding:24px 28px;display:flex;flex-direction:column;gap:18px;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.mhead,.mfoot{flex:none}
 .mfoot{display:flex;justify-content:flex-end;gap:12px;padding:20px 28px;border-top:1px solid rgba(255,255,255,.7)}
 
 /* ---- pantalla de carga ---- */

@@ -6,7 +6,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/Recurso%209.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=4">
 <script>try{if(localStorage.getItem('pmo-nav')==='1')document.documentElement.classList.add('navc')}catch(e){}</script>
 <script src="app.js" defer></script>
 <style>
@@ -302,10 +302,12 @@ function abrirModal(x){
   dmMeta.insertAdjacentHTML('beforeend', `<span class="tag">${x.resp.join(' · ')}</span>`);
   dmText.textContent = x.d;
   dModal.style.display = 'block';
+  document.body.classList.add('modal-open');
   dModal.querySelector('.xbtn').focus();
 }
 function cerrarModal(){
   dModal.style.display = 'none';
+  document.body.classList.remove('modal-open');
   if (ultimoFoco) ultimoFoco.focus();
 }
 dModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', cerrarModal));
