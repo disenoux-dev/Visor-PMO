@@ -6,7 +6,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/Recurso%209.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=4">
 <script>try{if(localStorage.getItem('pmo-nav')==='1')document.documentElement.classList.add('navc')}catch(e){}</script>
 <script src="app.js" defer></script>
 <style>
@@ -240,7 +240,20 @@
   .hval{flex:none;font-family:var(--font-mono);font-size:12px;color:var(--text);text-align:right;white-space:nowrap}
 
   /* modal de trazabilidad */
-  .trmodal{max-width:880px}
+  /* altura fija (no cambia al pasar de nivel o de página); las filas por página se calculan para que quepan sin recorte */
+  #trModal .modalwrap{padding:24px 20px;overscroll-behavior:contain}
+  .trmodal{max-width:880px;height:calc(100vh - 48px);display:flex;flex-direction:column;overflow:hidden}
+  .trmodal .mhead{padding:18px 28px;flex:none}
+  .trmodal .mbody{padding:18px 28px;gap:14px;flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto;overscroll-behavior:contain}
+  .trmodal .mfoot{padding:14px 28px;flex:none}
+  .trlvl{flex:1;min-height:0;gap:14px}
+  .trtbl{display:flex;flex-direction:column;min-height:0;flex:1}
+  .trtbl .tv{overflow:auto;min-height:0;flex:1;overscroll-behavior:contain}
+  .trtbl thead th{position:sticky;top:0;z-index:1}
+  .trtbl .cap{flex:none}
+  .trtbl tfoot td{background:var(--niebla-50);font-weight:500;border-top:1px solid rgba(13,24,36,.06)}
+  .trtbl tfoot tr:first-child td{border-top:2px solid rgba(13,24,36,.14)}
+  .trtbl .pager{flex:none;border-top:1px solid rgba(13,24,36,.08);background:var(--niebla-50);padding:8px 16px;min-height:46px}
   .treye{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--azul-700)}
   .trmodal .mhead h2{font-size:22px;font-weight:500;letter-spacing:-.02em;margin-top:2px}
   .trmodal .mhead p{font-size:13px;color:var(--sec);margin-top:4px}
@@ -252,13 +265,11 @@
   .trtbl .cap span{color:var(--muted);margin-left:8px}
   .trtbl table{width:100%;border-collapse:collapse;font-size:13px}
   .trtbl th{text-align:left;padding:10px 16px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--sec);background:var(--azul-100);color:var(--azul-700)}
-  .trtbl td{padding:10px 16px;border-top:1px solid rgba(13,24,36,.06)}
+    background:var(--azul-100);color:var(--azul-700)}
+  .trtbl td{padding:8px 16px;border-top:1px solid rgba(13,24,36,.06)}
   .trtbl .num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
   .trtbl th.num{font-family:inherit}
   .trtbl .det{color:var(--muted)}
-  .trtbl tr.tot td{font-weight:500;background:var(--niebla-50)}
-  .trtbl tr.tot:first-of-type td{border-top:2px solid rgba(13,24,36,.14)}
   .trtbl tr.hit td{background:rgba(110,180,55,.16)}
   .trtbl tr.hit td:first-child{box-shadow:inset 3px 0 0 var(--lima-500)}
   /* nivel 1: filas de categoría clicables → nivel 2 (personas) */
@@ -281,16 +292,17 @@
   .trmodal.l2 .trback{display:inline-flex}
   .trmodal h2:focus{outline:0}
   .l2sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .l2stat{background:#fff;border:1px solid rgba(13,24,36,.08);border-radius:8px;padding:10px 14px;min-width:0}
+  .l2stat{background:#fff;border:1px solid rgba(13,24,36,.08);border-radius:8px;padding:8px 14px;min-width:0}
   .l2stat .k{display:block;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-  .l2stat .v{display:block;font-family:var(--font-mono);font-size:16px;margin-top:4px;white-space:nowrap}
-  .l2search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(13,24,36,.12);border-radius:8px;padding:9px 12px;color:var(--muted)}
+  .l2stat .v{display:block;font-family:var(--font-mono);font-size:15px;margin-top:3px;white-space:nowrap}
+  .l2search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(13,24,36,.12);border-radius:8px;padding:7px 12px;color:var(--muted)}
   .l2search:focus-within{border-color:var(--azul-600);box-shadow:0 0 0 3px rgba(54,102,171,.15)}
   .l2search input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:13px;color:var(--text);background:transparent}
   .pname{font-weight:500}
   .pmail{display:block;font-size:11.5px;color:var(--azul-700);margin-top:2px}
   .trtbl .vacio{padding:22px;text-align:center;color:var(--muted);font-size:12.5px}
   .catnav{margin-right:auto;display:flex;gap:8px}
+  .catnav[hidden]{display:none}
   .catnav .btn:disabled{opacity:.4;cursor:not-allowed}
   @media (max-width:640px){.l2sum{grid-template-columns:1fr 1fr}}
   .trtbl tr.hit td:first-child{font-weight:500}
@@ -866,12 +878,18 @@
           <span class="trsrc"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 9h16M4 15h16M10 3v18"/></svg> Fuente: Detalle Teams 419 · A1:E30</span>
           <div class="trtbl">
             <div class="cap"><b>Detalle Teams — 419 Depósitos Judiciales (todos los periodos)</b><span>Mayo 2025 – Agosto 2026</span></div>
+            <div class="tv">
             <table>
               <thead><tr><th>Categoría cargo</th><th class="num">Costo</th><th class="num">HC</th><th class="num">% Asig.</th><th>Detalle</th><th></th></tr></thead>
               <tbody id="trRows"></tbody>
+              <tfoot id="trTot"></tfoot>
             </table>
+            </div>
+            <div class="pager">
+              <span class="pinfo trhint" id="trPinfo1"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11.5 12 3l3 8.5M6 21l6-7 6 7"/></svg> Clic en una categoría para ver las personas asignadas</span>
+              <div class="pbtns" id="trPbtns1" role="navigation" aria-label="Paginación de categorías"></div>
+            </div>
           </div>
-          <p class="trhint"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11.5 12 3l3 8.5M6 21l6-7 6 7"/></svg> Clic en una categoría para ver las personas asignadas</p>
         </div>
         <!-- nivel 2 -->
         <div id="trL2" class="trlvl" hidden>
@@ -883,10 +901,16 @@
           </div>
           <label class="l2search"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" id="trSearch" placeholder="Buscar persona o cargo en esta categoría…" aria-label="Buscar persona o cargo"></label>
           <div class="trtbl">
+            <div class="tv">
             <table>
               <thead><tr><th>Persona</th><th>Cargo</th><th class="num">Ocupación</th><th>Estado de asignación</th><th class="num">Fecha inicio</th><th class="num">Fecha fin</th></tr></thead>
               <tbody id="trPeople"></tbody>
             </table>
+            </div>
+            <div class="pager">
+              <span class="pinfo" id="trPinfo" aria-live="polite"></span>
+              <div class="pbtns" id="trPbtns" role="navigation" aria-label="Paginación de personas"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1020,21 +1044,76 @@
   const trModal = $('trModal'), trRows = $('trRows'), trL1 = $('trL1'), trL2 = $('trL2'), trPeople = $('trPeople'),
         trSearch = $('trSearch'), catNav = $('catNav'), trPrev = $('trPrev'), trNext = $('trNext');
   const ARR = '<span class="goarr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span>';
-  trRows.innerHTML = TR_ROWS.map(([c, v, hc, p, d, tot]) =>
-    `<tr data-cat="${c}" class="${tot ? 'tot' : 'lnk'}"${tot ? '' : ' tabindex="0" role="button" aria-label="' + c + ': ver ' + hc + ' personas"'}>` +
-    `<td>${c}</td><td class="num">${v}</td><td class="num">${hc}</td><td class="num">${p}</td><td class="det">${d || '—'}</td><td class="go">${tot ? '' : ARR}</td></tr>`
-  ).join('');
+  const fila1 = ([c, v, hc, p, d, tot]) =>
+    `<tr data-cat="${c}"${tot ? '' : ' class="lnk" tabindex="0" role="button" aria-label="' + c + ': ver ' + hc + ' personas"'}>` +
+    `<td>${c}</td><td class="num">${v}</td><td class="num">${hc}</td><td class="num">${p}</td><td class="det">${d || '—'}</td><td class="go">${tot ? '' : ARR}</td></tr>`;
+  $('trTot').innerHTML = TR_ROWS.filter(r => r[5]).map(fila1).join('');
 
-  let trFoco = null, filaFoco = null, catAct = null;
+  let trFoco = null, filaFoco = null, catAct = null, catHit = null, pag1 = 1, pagP = 1;
   function setHead(eye, title, sub) { $('trEye').textContent = eye; $('trTitle').textContent = title; $('trSub').textContent = sub; }
+
+  // paginador común: botones ‹ 1 2 3 ›
+  function pager(el, pag, paginas, onGo) {
+    el.innerHTML = '';
+    if (paginas < 2) return;
+    const btn = (txt, pg, { dis = false, act = false, label } = {}) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pbtn' + (act ? ' act' : ''); b.textContent = txt; b.disabled = dis;
+      b.setAttribute('aria-label', label || `Ir a la página ${pg}`);
+      if (act) b.setAttribute('aria-current', 'page');
+      if (!dis && !act) b.addEventListener('click', () => onGo(pg));
+      el.appendChild(b);
+    };
+    btn('‹', pag - 1, { dis: pag === 1, label: 'Página anterior' });
+    if (paginas <= 7) for (let pg = 1; pg <= paginas; pg++) btn(pg, pg, { act: pg === pag });
+    else { const sp = document.createElement('span'); sp.className = 'pinfo'; sp.style.padding = '0 6px'; sp.textContent = `${pag} / ${paginas}`; el.appendChild(sp); }
+    btn('›', pag + 1, { dis: pag === paginas, label: 'Página siguiente' });
+  }
+  // cuántas filas caben en el visor de la tabla sin recortar: se mide con las filas ya pintadas
+  function caben(tv, tbody) {
+    const tabla = tv.querySelector('table'), fijo = tabla.offsetHeight - tbody.offsetHeight;
+    const filas = [...tbody.rows]; if (!filas.length) return 1;
+    const alto = Math.max(...filas.map(r => r.offsetHeight));
+    return Math.max(1, Math.floor((tv.clientHeight - fijo) / alto));
+  }
+  // pinta una página y, si no cabe (o sobra sitio), recalcula el tamaño de página y repinta
+  function paginar(tv, tbody, items, pintar, quiere, vacio) {
+    let porPag = Math.max(1, items.length), pag = quiere;
+    for (let i = 0; i < 3; i++) {
+      const paginas = Math.max(1, Math.ceil(items.length / porPag));
+      pag = Math.min(quiere, paginas);
+      const desde = (pag - 1) * porPag, filas = items.slice(desde, desde + porPag);
+      tbody.innerHTML = filas.length ? filas.map(pintar).join('') : vacio;
+      if (!filas.length) return { pag, paginas, desde, hasta: 0 };
+      const cabe = caben(tv, tbody);
+      if (cabe === porPag || (cabe > porPag && porPag === items.length)) return { pag, paginas, desde, hasta: desde + filas.length };
+      porPag = Math.min(cabe, items.length);
+    }
+    return { pag, paginas: Math.max(1, Math.ceil(items.length / porPag)), desde: (pag - 1) * porPag, hasta: Math.min(items.length, pag * porPag) };
+  }
+  function renderCats() {
+    const r = paginar(trRows.closest('.tv'), trRows, TR_ROWS.filter(x => !x[5]), fila1, pag1, '');
+    pag1 = r.pag;
+    trRows.querySelectorAll('tr').forEach(t => t.classList.toggle('hit', t.dataset.cat === catHit));
+    trRows.querySelectorAll('tr.lnk').forEach(t => {
+      const go = () => { filaFoco = t.dataset.cat; verCat(t.dataset.cat, true); };
+      t.addEventListener('click', go);
+      t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+    pager($('trPbtns1'), pag1, r.paginas, pg => { pag1 = pg; renderCats(); });
+  }
   function renderPeople() {
     const q = trSearch.value.trim().toLowerCase();
-    const rows = TR_PEOPLE[catAct].filter(p => !q || (p.n + ' ' + p.e + ' ' + p.c).toLowerCase().includes(q));
-    trPeople.innerHTML = rows.length ? rows.map(p => {
+    const todas = TR_PEOPLE[catAct].filter(p => !q || (p.n + ' ' + p.e + ' ' + p.c).toLowerCase().includes(q));
+    const fila = p => {
       const [t, cl] = estado(p);
       return `<tr><td><span class="pname">${p.n}</span><span class="pmail">${p.e}</span></td><td>${p.c}</td><td class="num">${p.o}%</td>` +
              `<td><span class="gp gp-sm ${cl}">${t}</span></td><td class="num">${fmtD(p.ini)}</td><td class="num">${fmtD(p.fin)}</td></tr>`;
-    }).join('') : `<tr><td colspan="6" class="vacio">Sin resultados para «${trSearch.value.trim()}»</td></tr>`;
+    };
+    const r = paginar(trPeople.closest('.tv'), trPeople, todas, fila, pagP, `<tr><td colspan="6" class="vacio">Sin resultados para «${trSearch.value.trim()}»</td></tr>`);
+    pagP = r.pag;
+    $('trPinfo').textContent = todas.length ? `${r.desde + 1}–${r.hasta} de ${todas.length} personas` : '';
+    pager($('trPbtns'), pagP, r.paginas, pg => { pagP = pg; renderPeople(); });
   }
   function verCat(cat, focus) {
     catAct = cat;
@@ -1042,43 +1121,48 @@
     setHead('Trazabilidad del indicador · Costo del equipo 419', cat, `Categoría cargo · ${row[3]} del costo del equipo` + (row[4] ? ` · ${row[4]}` : ''));
     $('l2hc').textContent = ppl.length; $('l2avg').textContent = Math.round(suma / ppl.length) + '%';
     $('l2fte').textContent = (suma / 100).toFixed(1).replace('.', ','); $('l2cost').textContent = row[1];
-    trSearch.value = ''; renderPeople();
     trL1.hidden = true; trL2.hidden = false; catNav.hidden = false; trModal.querySelector('.modal').classList.add('l2');
+    trSearch.value = ''; pagP = 1; renderPeople();
     const i = CATS.indexOf(cat);
     trPrev.disabled = i === 0; trNext.disabled = i === CATS.length - 1;
     trPrev.textContent = i > 0 ? '‹ ' + CATS[i - 1] : '‹ Anterior';
     trNext.textContent = i < CATS.length - 1 ? CATS[i + 1] + ' ›' : 'Siguiente ›';
-    trModal.querySelector('.modalwrap').scrollTop = 0;
     if (focus) $('trTitle').focus();
   }
   function verCats() {
     trL2.hidden = true; trL1.hidden = false; catNav.hidden = true; trModal.querySelector('.modal').classList.remove('l2');
     setHead('Trazabilidad del indicador', 'Costo del equipo 419', 'Composición del costo por categoría');
-    if (filaFoco) { filaFoco.focus(); filaFoco = null; }
+    renderCats();
+    if (filaFoco) { const f = trRows.querySelector(`tr[data-cat="${filaFoco}"]`); if (f) f.focus(); filaFoco = null; }
   }
   function abrirTr(cat) {
     trFoco = document.activeElement;
-    verCats();
-    trRows.querySelectorAll('tr').forEach(r => r.classList.toggle('hit', r.dataset.cat === cat));
+    catHit = cat; pag1 = 1;
     trModal.style.display = 'block';
+    document.body.classList.add('modal-open');
+    verCats();
+    // ir a la página donde está la categoría resaltada
+    if (!trRows.querySelector('tr.hit')) {
+      const i = CATS.indexOf(cat), porPag = trRows.rows.length;
+      if (i >= 0 && porPag) { pag1 = Math.floor(i / porPag) + 1; renderCats(); }
+    }
     trModal.querySelector('.xbtn').focus();
-    const hit = trRows.querySelector('tr.hit');
-    if (hit) hit.scrollIntoView({ block: 'nearest' });
   }
   function cerrarTr() {
     trModal.style.display = 'none';
+    document.body.classList.remove('modal-open');
     if (trFoco) trFoco.focus();
   }
   document.querySelectorAll('.hrow[data-row]').forEach(b => b.addEventListener('click', () => abrirTr(b.dataset.row)));
-  trRows.querySelectorAll('tr.lnk').forEach(r => {
-    const go = () => { filaFoco = r; verCat(r.dataset.cat, true); };
-    r.addEventListener('click', go);
-    r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  // al cambiar el alto de la ventana, recalcular cuántas filas caben
+  let rsz; window.addEventListener('resize', () => {
+    if (trModal.style.display !== 'block') return;
+    clearTimeout(rsz); rsz = setTimeout(() => { trL2.hidden ? renderCats() : renderPeople(); }, 120);
   });
   $('trBack').addEventListener('click', verCats);
   trPrev.addEventListener('click', () => verCat(CATS[CATS.indexOf(catAct) - 1], true));
   trNext.addEventListener('click', () => verCat(CATS[CATS.indexOf(catAct) + 1], true));
-  trSearch.addEventListener('input', renderPeople);
+  trSearch.addEventListener('input', () => { pagP = 1; renderPeople(); });
   trModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', cerrarTr));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && trModal.style.display === 'block') cerrarTr(); });
 
