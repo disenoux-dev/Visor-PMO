@@ -213,13 +213,87 @@
     color:var(--danger-700);background:rgba(210,67,78,.10)}
 
   /* equipo: barras horizontales + dona */
-  .hrow{display:flex;align-items:center;gap:12px;margin-top:11px}
-  .hrow .hl2{width:150px;flex:none;font-size:12px;font-weight:500;color:var(--sec);text-align:right}
+  /* barras clicables: cada fila es un botón que abre la trazabilidad.
+     El grupo es una grilla y cada fila hereda sus columnas (subgrid): la etiqueta y el valor ocupan lo justo y la pista llena el resto */
+  .hbars{display:grid;grid-template-columns:max-content minmax(0,1fr) max-content 26px;column-gap:12px;margin-top:8px}
+  .hrow{display:grid;grid-template-columns:subgrid;grid-column:1/-1;align-items:center;margin-top:4px;padding:5px 8px;border:0;border-radius:7px;
+    background:transparent;font-family:inherit;text-align:left;cursor:pointer;transition:background .2s var(--ease)}
+  @supports not (grid-template-columns:subgrid){
+    .hrow{display:flex;gap:12px}
+    .hrow .hl2{width:108px}
+    .hval{width:84px}
+  }
+  .hbars .hhint{grid-column:1/-1}
+  .hrow:hover,.hrow:focus-visible{background:rgba(54,102,171,.08)}
+  .hrow:hover .hfill,.hrow:focus-visible .hfill{filter:brightness(1.08)}
+  .hrow .hl2{flex:none;font-size:12px;font-weight:500;color:var(--sec);text-align:left;white-space:nowrap}
+  .hrow .harr{flex:none;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    color:var(--azul-700);background:var(--azul-100);border:1px solid rgba(54,102,171,.35);
+    transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease),box-shadow .2s var(--ease)}
+  .hrow:hover .harr,.hrow:focus-visible .harr{color:#fff;background:var(--azul-700);border-color:var(--azul-700);transform:translateX(2px);
+    box-shadow:0 6px 14px -6px rgba(46,88,147,.6)}
+  .hhint{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-top:10px}
   .htrack{flex:1;height:20px;border-radius:5px;background:rgba(13,24,36,.05);overflow:hidden}
   .hfill{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--azul-700),var(--azul-500));
     width:0;transition:width 1.1s var(--ease)}
   .drawn .hfill{width:var(--w)}
-  .hval{width:96px;flex:none;font-family:var(--font-mono);font-size:12px}
+  .hval{flex:none;font-family:var(--font-mono);font-size:12px;color:var(--text);text-align:right;white-space:nowrap}
+
+  /* modal de trazabilidad */
+  .trmodal{max-width:880px}
+  .treye{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--azul-700)}
+  .trmodal .mhead h2{font-size:22px;font-weight:500;letter-spacing:-.02em;margin-top:2px}
+  .trmodal .mhead p{font-size:13px;color:var(--sec);margin-top:4px}
+  .trsrc{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:12px;font-weight:500;color:var(--azul-700);
+    background:var(--azul-100);padding:6px 12px;border-radius:6px}
+  .trtbl{border:1px solid rgba(13,24,36,.08);border-radius:10px;overflow:hidden;background:#fff}
+  .trtbl .cap{padding:12px 16px;background:var(--niebla-50);border-bottom:1px solid rgba(13,24,36,.08);font-size:12.5px}
+  .trtbl .cap b{font-weight:500}
+  .trtbl .cap span{color:var(--muted);margin-left:8px}
+  .trtbl table{width:100%;border-collapse:collapse;font-size:13px}
+  .trtbl th{text-align:left;padding:10px 16px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--sec);background:var(--azul-100);color:var(--azul-700)}
+  .trtbl td{padding:10px 16px;border-top:1px solid rgba(13,24,36,.06)}
+  .trtbl .num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .trtbl th.num{font-family:inherit}
+  .trtbl .det{color:var(--muted)}
+  .trtbl tr.tot td{font-weight:500;background:var(--niebla-50)}
+  .trtbl tr.tot:first-of-type td{border-top:2px solid rgba(13,24,36,.14)}
+  .trtbl tr.hit td{background:rgba(110,180,55,.16)}
+  .trtbl tr.hit td:first-child{box-shadow:inset 3px 0 0 var(--lima-500)}
+  /* nivel 1: filas de categoría clicables → nivel 2 (personas) */
+  .trtbl tr.lnk{cursor:pointer}
+  .trtbl tr.lnk:hover td,.trtbl tr.lnk:focus-visible td{background:rgba(54,102,171,.08)}
+  .trtbl tr.lnk:focus-visible{outline:2px solid var(--azul-600);outline-offset:-2px}
+  .trtbl td.go{width:38px;padding-right:12px}
+  .goarr{width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;
+    color:var(--azul-700);background:var(--azul-100);border:1px solid rgba(54,102,171,.35);transition:all .2s var(--ease)}
+  .trtbl tr.lnk:hover .goarr,.trtbl tr.lnk:focus-visible .goarr{color:#fff;background:var(--azul-700);border-color:var(--azul-700);transform:translateX(2px)}
+  .trhint{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+  .trlvl{display:flex;flex-direction:column;gap:18px}
+  .trlvl[hidden]{display:none}
+  /* nivel 2: personas de la categoría */
+  .trmodal.l2{max-width:1040px}
+  .trmodal .mhead{gap:14px}
+  .trback{display:none;flex:none;width:36px;height:36px;border-radius:6px;border:1px solid rgba(54,102,171,.35);background:var(--azul-100);
+    color:var(--azul-700);cursor:pointer;align-items:center;justify-content:center;margin-top:4px}
+  .trback:hover{background:var(--azul-700);color:#fff;border-color:var(--azul-700)}
+  .trmodal.l2 .trback{display:inline-flex}
+  .trmodal h2:focus{outline:0}
+  .l2sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .l2stat{background:#fff;border:1px solid rgba(13,24,36,.08);border-radius:8px;padding:10px 14px;min-width:0}
+  .l2stat .k{display:block;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .l2stat .v{display:block;font-family:var(--font-mono);font-size:16px;margin-top:4px;white-space:nowrap}
+  .l2search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(13,24,36,.12);border-radius:8px;padding:9px 12px;color:var(--muted)}
+  .l2search:focus-within{border-color:var(--azul-600);box-shadow:0 0 0 3px rgba(54,102,171,.15)}
+  .l2search input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:13px;color:var(--text);background:transparent}
+  .pname{font-weight:500}
+  .pmail{display:block;font-size:11.5px;color:var(--azul-700);margin-top:2px}
+  .trtbl .vacio{padding:22px;text-align:center;color:var(--muted);font-size:12.5px}
+  .catnav{margin-right:auto;display:flex;gap:8px}
+  .catnav .btn:disabled{opacity:.4;cursor:not-allowed}
+  @media (max-width:640px){.l2sum{grid-template-columns:1fr 1fr}}
+  .trtbl tr.hit td:first-child{font-weight:500}
   .donutwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%}
 
   @media (prefers-reduced-motion:reduce){
@@ -708,15 +782,16 @@
               <div class="stile" style="padding:18px 20px">
                 <p style="font-size:13.5px;font-weight:500">Costo acumulado por categoría</p>
                 <p class="ssub" style="margin-top:2px">Principales rubros del equipo</p>
-                <div role="img" aria-label="Barras por categoría: implementación directa 2,2 mil millones; indirectos 942 millones; requerimientos 650; QA 380; datos 280; infraestructura 180; diseño 60; soporte 30">
-                  <div class="hrow"><span class="hl2">Impl. directa</span><span class="htrack"><span class="hfill" style="--w:100%"></span></span><span class="hval">$2,2 mil MM</span></div>
-                  <div class="hrow"><span class="hl2">Indirectos</span><span class="htrack"><span class="hfill" style="--w:43%;background:linear-gradient(90deg,var(--lima-700),var(--lima-500))"></span></span><span class="hval">$942 M</span></div>
-                  <div class="hrow"><span class="hl2">Requerimientos</span><span class="htrack"><span class="hfill" style="--w:30%"></span></span><span class="hval">$650 M</span></div>
-                  <div class="hrow"><span class="hl2">QA</span><span class="htrack"><span class="hfill" style="--w:17%"></span></span><span class="hval">$380 M</span></div>
-                  <div class="hrow"><span class="hl2">Datos</span><span class="htrack"><span class="hfill" style="--w:13%"></span></span><span class="hval">$280 M</span></div>
-                  <div class="hrow"><span class="hl2">Infraestructura</span><span class="htrack"><span class="hfill" style="--w:8%"></span></span><span class="hval">$180 M</span></div>
-                  <div class="hrow"><span class="hl2">Diseño</span><span class="htrack"><span class="hfill" style="--w:3%"></span></span><span class="hval">$60 M</span></div>
-                  <div class="hrow"><span class="hl2">Soporte</span><span class="htrack"><span class="hfill" style="--w:2%"></span></span><span class="hval">$30 M</span></div>
+                <div class="hbars" role="group" aria-label="Costo acumulado por categoría · clic en una barra para ver la trazabilidad">
+                  <button type="button" class="hrow" data-row="Total Implementación" aria-label="Impl. directa, $2,2 mil MM. Ver trazabilidad"><span class="hl2">Impl. directa</span><span class="htrack"><span class="hfill" style="--w:100%"></span></span><span class="hval">$2,2 mil MM</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Total Indirectos" aria-label="Indirectos, $942 M. Ver trazabilidad"><span class="hl2">Indirectos</span><span class="htrack"><span class="hfill" style="--w:43%;background:linear-gradient(90deg,var(--lima-700),var(--lima-500))"></span></span><span class="hval">$942 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Requerimientos" aria-label="Requerimientos, $637 M. Ver trazabilidad"><span class="hl2">Requerimientos</span><span class="htrack"><span class="hfill" style="--w:29%"></span></span><span class="hval">$637 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="QA" aria-label="QA, $341 M. Ver trazabilidad"><span class="hl2">QA</span><span class="htrack"><span class="hfill" style="--w:15%"></span></span><span class="hval">$341 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Datos" aria-label="Datos, $265 M. Ver trazabilidad"><span class="hl2">Datos</span><span class="htrack"><span class="hfill" style="--w:12%"></span></span><span class="hval">$265 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Infraestructura" aria-label="Infraestructura, $149 M. Ver trazabilidad"><span class="hl2">Infraestructura</span><span class="htrack"><span class="hfill" style="--w:7%"></span></span><span class="hval">$149 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Diseño" aria-label="Diseño, $41 M. Ver trazabilidad"><span class="hl2">Diseño</span><span class="htrack"><span class="hfill" style="--w:2%"></span></span><span class="hval">$41 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <button type="button" class="hrow" data-row="Soporte" aria-label="Soporte, $1,9 M. Ver trazabilidad"><span class="hl2">Soporte</span><span class="htrack"><span class="hfill" style="--w:1%"></span></span><span class="hval">$1,9 M</span><span class="harr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span></button>
+                  <p class="hhint"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11.5 12 3l3 8.5M6 21l6-7 6 7"/></svg> Clic en una barra para consultar la hoja fuente del indicador</p>
                 </div>
               </div>
               <div class="stile" style="padding:18px 20px">
@@ -768,6 +843,61 @@
       <div id="panel-personal" role="tabpanel" aria-labelledby="tab-personal" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Personal</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
       <div id="panel-documentos" role="tabpanel" aria-labelledby="tab-documentos" tabindex="0" hidden><div class="gcard"><p class="empty">Módulo <b>Documentos</b> en construcción · pronto conectado a la hoja madre.</p></div></div>
     </main>
+  </div>
+</div>
+
+<!-- modal de trazabilidad del indicador (costo del equipo): nivel 1 categorías → nivel 2 personas -->
+<div id="trModal" style="display:none">
+  <div class="backdrop" data-close></div>
+  <div class="modalwrap">
+    <div class="modal trmodal" role="dialog" aria-modal="true" aria-labelledby="trTitle">
+      <div class="mhead" style="align-items:flex-start">
+        <button class="trback" id="trBack" type="button" aria-label="Volver a categorías"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <div style="flex:1;min-width:0">
+          <span class="treye" id="trEye">Trazabilidad del indicador</span>
+          <h2 id="trTitle" tabindex="-1">Costo del equipo 419</h2>
+          <p id="trSub">Composición del costo por categoría</p>
+        </div>
+        <button class="xbtn" data-close aria-label="Cerrar">✕</button>
+      </div>
+      <div class="mbody">
+        <!-- nivel 1 -->
+        <div id="trL1" class="trlvl">
+          <span class="trsrc"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 9h16M4 15h16M10 3v18"/></svg> Fuente: Detalle Teams 419 · A1:E30</span>
+          <div class="trtbl">
+            <div class="cap"><b>Detalle Teams — 419 Depósitos Judiciales (todos los periodos)</b><span>Mayo 2025 – Agosto 2026</span></div>
+            <table>
+              <thead><tr><th>Categoría cargo</th><th class="num">Costo</th><th class="num">HC</th><th class="num">% Asig.</th><th>Detalle</th><th></th></tr></thead>
+              <tbody id="trRows"></tbody>
+            </table>
+          </div>
+          <p class="trhint"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11.5 12 3l3 8.5M6 21l6-7 6 7"/></svg> Clic en una categoría para ver las personas asignadas</p>
+        </div>
+        <!-- nivel 2 -->
+        <div id="trL2" class="trlvl" hidden>
+          <div class="l2sum">
+            <div class="l2stat"><span class="k">Personas</span><span class="v" id="l2hc">—</span></div>
+            <div class="l2stat"><span class="k">Ocupación promedio</span><span class="v" id="l2avg">—</span></div>
+            <div class="l2stat"><span class="k">FTE</span><span class="v" id="l2fte">—</span></div>
+            <div class="l2stat"><span class="k">Costo acumulado</span><span class="v" id="l2cost">—</span></div>
+          </div>
+          <label class="l2search"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" id="trSearch" placeholder="Buscar persona o cargo en esta categoría…" aria-label="Buscar persona o cargo"></label>
+          <div class="trtbl">
+            <table>
+              <thead><tr><th>Persona</th><th>Cargo</th><th class="num">Ocupación</th><th>Estado de asignación</th><th class="num">Fecha inicio</th><th class="num">Fecha fin</th></tr></thead>
+              <tbody id="trPeople"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="mfoot">
+        <div class="catnav" id="catNav" hidden>
+          <button class="btn btn-ghost" type="button" id="trPrev" style="padding:9px 14px;font-size:12px">‹ Anterior</button>
+          <button class="btn btn-ghost" type="button" id="trNext" style="padding:9px 14px;font-size:12px">Siguiente ›</button>
+        </div>
+        <button class="btn btn-ghost" data-close>Cerrar</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -829,6 +959,128 @@
   }
   initTabs(document.querySelector('.tabbar'));
   initTabs(document.querySelector('.secnav'));
+
+  // ---- trazabilidad del costo del equipo (modal de dos niveles) ----
+  const TR_ROWS = [
+    ['Desarrollo','$ 767.282.461',23,'24%',''],
+    ['Requerimientos','$ 637.445.926',19,'20%',''],
+    ['Transversales','$ 454.370.052',14,'14%','Arquitectura y funcionales'],
+    ['QA','$ 340.586.877',15,'11%',''],
+    ['Gestión de Proyectos','$ 267.881.591',3,'9%',''],
+    ['Datos','$ 264.956.972',8,'8%',''],
+    ['Directivos','$ 151.257.887',2,'5%','Head Fábrica'],
+    ['Infraestructura','$ 148.727.882',6,'5%','Infra, ciber y SISO'],
+    ['Scrum','$ 61.315.188',3,'2%','Scrum y analistas'],
+    ['Diseño','$ 40.956.996',1,'1%','UX'],
+    ['Comunicaciones','$ 5.073.275',1,'0%',''],
+    ['Soporte','$ 1.869.598',2,'0%','Mesa'],
+    ['Total','$ 3.141.724.706',97,'100%','',true],
+    ['Total Implementación','$ 2.199.685.316',71,'70%','',true],
+    ['Total Indirectos','$ 942.039.390',26,'30%','',true]
+  ];
+  const CATS = TR_ROWS.filter(r => !r[5]).map(r => r[0]);
+  // personas por categoría: datos de muestra generados de forma estable hasta conectar la hoja madre
+  const TR_PEOPLE = (() => {
+    const N = ['Andrés','Camila','Daniel','Laura','Julián','Valentina','Santiago','Mariana','Felipe','Natalia','Sebastián','Paola','Nicolás','Carolina','Mateo','Diana','Alejandro','Juliana','David','Sofía','Esteban','Jorge','Lucía','Óscar'];
+    const A = ['Rodríguez','Gómez','Martínez','López','García','Hernández','Pérez','Sánchez','Ramírez','Torres','Castro','Vargas','Moreno','Jiménez','Rojas','Ortiz','Mendoza','Suárez','Cárdenas','Parra'];
+    const C = {
+      'Desarrollo':['Desarrollador senior','Desarrollador semisenior','Desarrollador junior','Líder técnico','Desarrollador móvil'],
+      'Requerimientos':['Analista de requerimientos','Analista funcional','Líder de requerimientos'],
+      'Transversales':['Arquitecto de software','Arquitecto de soluciones','Analista funcional transversal'],
+      'QA':['Analista de pruebas','Ingeniero de automatización','Líder QA'],
+      'Gestión de Proyectos':['Líder de proyectos','Gerente de proyecto','Coordinador PMO'],
+      'Datos':['Ingeniero de datos','Analista de datos','Administrador de base de datos'],
+      'Directivos':['Head de fábrica','Director de operaciones'],
+      'Infraestructura':['Coordinador de infraestructura on premise','Coordinador de seguridad de la información','Ingeniero SISO','Líder NOC'],
+      'Scrum':['Scrum master','Analista ágil'],
+      'Diseño':['Diseñador UX'],
+      'Comunicaciones':['Comunicador de proyecto'],
+      'Soporte':['Coordinador de soporte','Analista mesa de ayuda']
+    };
+    let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const pick = a => a[Math.floor(rnd() * a.length)];
+    const plain = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const out = {};
+    TR_ROWS.filter(r => !r[5]).forEach(([cat, , hc]) => {
+      out[cat] = Array.from({ length: hc }, () => {
+        const n = pick(N), a1 = pick(A), a2 = pick(A);
+        const ini = new Date(2025, 4 + Math.floor(rnd() * 14), 1 + Math.floor(rnd() * 27));
+        const fin = new Date(ini); fin.setMonth(fin.getMonth() + 3 + Math.floor(rnd() * 15));
+        return { n: `${n} ${a1} ${a2}`, e: `${plain(n)}.${plain(a1)}@linktic.com`, c: pick(C[cat]), o: pick([10, 25, 50, 50, 75, 100, 100]), ini, fin };
+      });
+    });
+    return out;
+  })();
+  const CORTE = new Date(2026, 7, 31);
+  const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const fmtD = d => String(d.getDate()).padStart(2, '0') + ' ' + MES[d.getMonth()] + ' ' + d.getFullYear();
+  const estado = p => p.fin < CORTE ? ['Vencido', 'gp-media'] : p.ini > CORTE ? ['Por iniciar', 'gp-pend'] : ['Vigente', 'gp-done'];
+
+  const $ = id => document.getElementById(id);
+  const trModal = $('trModal'), trRows = $('trRows'), trL1 = $('trL1'), trL2 = $('trL2'), trPeople = $('trPeople'),
+        trSearch = $('trSearch'), catNav = $('catNav'), trPrev = $('trPrev'), trNext = $('trNext');
+  const ARR = '<span class="goarr" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span>';
+  trRows.innerHTML = TR_ROWS.map(([c, v, hc, p, d, tot]) =>
+    `<tr data-cat="${c}" class="${tot ? 'tot' : 'lnk'}"${tot ? '' : ' tabindex="0" role="button" aria-label="' + c + ': ver ' + hc + ' personas"'}>` +
+    `<td>${c}</td><td class="num">${v}</td><td class="num">${hc}</td><td class="num">${p}</td><td class="det">${d || '—'}</td><td class="go">${tot ? '' : ARR}</td></tr>`
+  ).join('');
+
+  let trFoco = null, filaFoco = null, catAct = null;
+  function setHead(eye, title, sub) { $('trEye').textContent = eye; $('trTitle').textContent = title; $('trSub').textContent = sub; }
+  function renderPeople() {
+    const q = trSearch.value.trim().toLowerCase();
+    const rows = TR_PEOPLE[catAct].filter(p => !q || (p.n + ' ' + p.e + ' ' + p.c).toLowerCase().includes(q));
+    trPeople.innerHTML = rows.length ? rows.map(p => {
+      const [t, cl] = estado(p);
+      return `<tr><td><span class="pname">${p.n}</span><span class="pmail">${p.e}</span></td><td>${p.c}</td><td class="num">${p.o}%</td>` +
+             `<td><span class="gp gp-sm ${cl}">${t}</span></td><td class="num">${fmtD(p.ini)}</td><td class="num">${fmtD(p.fin)}</td></tr>`;
+    }).join('') : `<tr><td colspan="6" class="vacio">Sin resultados para «${trSearch.value.trim()}»</td></tr>`;
+  }
+  function verCat(cat, focus) {
+    catAct = cat;
+    const row = TR_ROWS.find(r => r[0] === cat), ppl = TR_PEOPLE[cat], suma = ppl.reduce((a, p) => a + p.o, 0);
+    setHead('Trazabilidad del indicador · Costo del equipo 419', cat, `Categoría cargo · ${row[3]} del costo del equipo` + (row[4] ? ` · ${row[4]}` : ''));
+    $('l2hc').textContent = ppl.length; $('l2avg').textContent = Math.round(suma / ppl.length) + '%';
+    $('l2fte').textContent = (suma / 100).toFixed(1).replace('.', ','); $('l2cost').textContent = row[1];
+    trSearch.value = ''; renderPeople();
+    trL1.hidden = true; trL2.hidden = false; catNav.hidden = false; trModal.querySelector('.modal').classList.add('l2');
+    const i = CATS.indexOf(cat);
+    trPrev.disabled = i === 0; trNext.disabled = i === CATS.length - 1;
+    trPrev.textContent = i > 0 ? '‹ ' + CATS[i - 1] : '‹ Anterior';
+    trNext.textContent = i < CATS.length - 1 ? CATS[i + 1] + ' ›' : 'Siguiente ›';
+    trModal.querySelector('.modalwrap').scrollTop = 0;
+    if (focus) $('trTitle').focus();
+  }
+  function verCats() {
+    trL2.hidden = true; trL1.hidden = false; catNav.hidden = true; trModal.querySelector('.modal').classList.remove('l2');
+    setHead('Trazabilidad del indicador', 'Costo del equipo 419', 'Composición del costo por categoría');
+    if (filaFoco) { filaFoco.focus(); filaFoco = null; }
+  }
+  function abrirTr(cat) {
+    trFoco = document.activeElement;
+    verCats();
+    trRows.querySelectorAll('tr').forEach(r => r.classList.toggle('hit', r.dataset.cat === cat));
+    trModal.style.display = 'block';
+    trModal.querySelector('.xbtn').focus();
+    const hit = trRows.querySelector('tr.hit');
+    if (hit) hit.scrollIntoView({ block: 'nearest' });
+  }
+  function cerrarTr() {
+    trModal.style.display = 'none';
+    if (trFoco) trFoco.focus();
+  }
+  document.querySelectorAll('.hrow[data-row]').forEach(b => b.addEventListener('click', () => abrirTr(b.dataset.row)));
+  trRows.querySelectorAll('tr.lnk').forEach(r => {
+    const go = () => { filaFoco = r; verCat(r.dataset.cat, true); };
+    r.addEventListener('click', go);
+    r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  $('trBack').addEventListener('click', verCats);
+  trPrev.addEventListener('click', () => verCat(CATS[CATS.indexOf(catAct) - 1], true));
+  trNext.addEventListener('click', () => verCat(CATS[CATS.indexOf(catAct) + 1], true));
+  trSearch.addEventListener('input', renderPeople);
+  trModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', cerrarTr));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && trModal.style.display === 'block') cerrarTr(); });
 
   // ---- series visibles del gráfico de costos ----
   document.querySelectorAll('.serieschk input').forEach(chk => {
